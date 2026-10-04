@@ -171,16 +171,6 @@ reads into HP1 and HP2, and the methylation is re-extracted for each haplotype.
 Script: [Session2_ont_one_command.sh](script/Session2_ont_one_command.sh) ·
 Console output: [Session2_ont.log](script/Session2_ont.log)
 
-### IGV visualization of methylation states in BAM file
-
-Open OnDemand Traveller Desktop, start IGV Viewer, and load the modified-base BAM
-from `ont/ont-*/`. The MM/ML tags are already there, so IGV can colour the reads by
-base modification directly.
-
-![IGV Snapshot of KCNQ1](pic/igv_snapshot_KCNQ1.png)
-
-![IGV Snapshot of SNRPN](pic/igv_snapshot_SNRPN.png)
-
 ---
 
 ## Section 3: PacBio HiFi, kinetics to per-haplotype methylation
@@ -204,17 +194,9 @@ extraction, Clair3, phasing, is the shared stack. **1 min 03 s**.
 Script: [Session3_pacbio_one_command.sh](script/Session3_pacbio_one_command.sh) ·
 Console output: [Session3_pacbio.log](script/Session3_pacbio.log)
 
-### IGV visualization of haplotype phasing
-
-Load the two haplotype BAMs from `pacbio/pacbio-vcall/pacbio_phased_bam/` as
-separate tracks. At an imprinted locus the two tracks separate cleanly, which is
-what a correct phasing looks like.
-
-![IGV Snapshot of MethPhase](pic/igv_snapshot_methphase.png)
-
 ---
 
-## Results
+## Section 4: Results
 
 ```
 ont/
@@ -230,6 +212,24 @@ ont/
 
 Run times, the step lists and how to tell a run actually worked are in
 [Session_jobinfo.md](script/Session_jobinfo.md).
+
+### IGV visualization of methylation states in BAM file
+
+Open OnDemand Traveller Desktop, start IGV Viewer, and load the modified-base BAM
+from `ont/ont-*/`. The MM/ML tags are already there, so IGV can colour the reads by
+base modification directly.
+
+![IGV Snapshot of KCNQ1](pic/igv_snapshot_KCNQ1.png)
+
+![IGV Snapshot of SNRPN](pic/igv_snapshot_SNRPN.png)
+
+### IGV visualization of haplotype phasing
+
+Load the two haplotype BAMs from `pacbio/pacbio-vcall/pacbio_phased_bam/` as
+separate tracks. At an imprinted locus the two tracks separate cleanly, which is
+what a correct phasing looks like.
+
+![IGV Snapshot of MethPhase](pic/igv_snapshot_methphase.png)
 
 ---
 
