@@ -1,0 +1,443 @@
+Downloading nextflow dependencies. It may require a few seconds, please wait .. [KNextflow 26.04.6 is available - Please consider updating your version to it[m
+
+ N E X T F L O W   ~  version 25.10.4
+
+Pulling LabShengLi/longverse ...
+ downloaded from https://github.com/LabShengLi/longverse.git
+Launching `https://github.com/LabShengLi/longverse` [modest_koch] DSL2 - revision: af38294882 [main]
+
+LongVerse — long-read pipeline (v2.0.0)
+Sheng Li Lab · https://github.com/LabShengLi/longverse
+=================================
+(1) ONT · Dorado modBam
+Launch dir   : /scratch1/$USER/longverse_tutorial/ont
+Work dir     : /scratch1/$USER/longverse_tutorial/ont/work
+Output dir   : ont
+Profile      : singularity
+Config files : /scratch1/$USER/longverse_tutorial/nxf_home/assets/LabShengLi/longverse/nextflow.config
+=================================
+Mandatory inputs
+  dsname : ont
+  input  : https://zenodo.org/records/23090404/files/chr20_GNAS_ont_pod5.tar.gz
+  genome : https://zenodo.org/records/23090404/files/chr20_GNAS_ref.tar.gz
+=================================
+Params differing from nextflow.config defaults
+  chrSet : chr20:60574425-60694782
+containerOptions : -B /scratch1/$USER/longverse_tutorial/ont
+ctg_name : chr20:60574425-60694782
+dmc_methylkit_dmc_test : fast.fisher
+dmc_methylkit_step_size : 200
+dmc_methylkit_tile_width : 200
+docker_name : ghcr.io/liuyang2006/dockerlongverse:latest
+dorado_basecall_model : dna_r10.4.1_e8.2_400bps_hac@v4.1.0
+dorado_methcall_model : dna_r10.4.1_e8.2_400bps_hac@v4.1.0_5mCG_5hmCG@v2
+dsname : ont
+genome : https://zenodo.org/records/23090404/files/chr20_GNAS_ref.tar.gz
+input : https://zenodo.org/records/23090404/files/chr20_GNAS_ont_pod5.tar.gz
+methylkit_docker_name : quay.io/biocontainers/bioconductor-methylkit:1.36.0--r45ha27e39d_0
+outdir : ont
+phasing : true
+runMultiqc : true
+singularity_name : docker://ghcr.io/liuyang2006/dockerlongverse:latest
+=================================
+nextflow run LabShengLi/longverse -latest -profile singularity --dsname ont --input 'https://zenodo.org/records/23090404/files/chr20_GNAS_ont_pod5.tar.gz' --genome 'https://zenodo.org/records/23090404/files/chr20_GNAS_ref.tar.gz' --platform ont --ecosystem dorado --input_bam false --file_format pod5 --phasing true --dorado_basecall_model dna_r10.4.1_e8.2_400bps_hac@v4.1.0 --dorado_methcall_model dna_r10.4.1_e8.2_400bps_hac@v4.1.0_5mCG_5hmCG@v2 --chrSet 'chr20:60574425-60694782' --ctg_name 'chr20:60574425-60694782' --clair3_platform ont --CLAIR3_MODEL_NAME r1041_e82_400bps_hac_v410 --outdir ont --containerOptions '-B /scratch1/$USER/longverse_tutorial/ont'
+=================================
+
+[-        ] ENVCHECK                 -
+[-        ] GENOME                   -
+[-        ] DORADO_UNTAR             -
+[-        ] DORADO_CALL              -
+[-        ] LV_QC                    -
+[-        ] LV_CALL_EXTRACT          -
+[-        ] UNIFY                    -
+[-        ] LV_CLAIR3                -
+[-        ] LV_PHASING               -
+[-        ] LV_CALL_EXTRACT_POST_HP1 -
+[-        ] LV_CALL_EXTRACT_POST_HP2 -
+[-        ] UNIFY_POST_HP1           -
+[-        ] UNIFY_POST_HP2           -
+
+executor >  local (1)
+[76/334621] ENVCHECK (ont)           | 0 of 1
+[-        ] GENOME                   -
+[-        ] DORADO_UNTAR             -
+[-        ] DORADO_CALL              -
+[-        ] LV_QC                    -
+[-        ] LV_CALL_EXTRACT          -
+[-        ] UNIFY                    -
+[-        ] LV_CLAIR3                -
+[-        ] LV_PHASING               -
+[-        ] LV_CALL_EXTRACT_POST_HP1 -
+[-        ] LV_CALL_EXTRACT_POST_HP2 -
+[-        ] UNIFY_POST_HP1           -
+[-        ] UNIFY_POST_HP2           -
+[-        ] LV_DMC_METHYLKIT         -
+[-        ] MULTIQC_METHYLATION      -
+
+executor >  local (1)
+[76/334621] ENVCHECK (ont)           | 0 of 1
+[-        ] GENOME                   -
+[-        ] DORADO_UNTAR             -
+[-        ] DORADO_CALL              -
+[-        ] LV_QC                    -
+[-        ] LV_CALL_EXTRACT          -
+[-        ] UNIFY                    -
+[-        ] LV_CLAIR3                -
+[-        ] LV_PHASING               -
+[-        ] LV_CALL_EXTRACT_POST_HP1 -
+[-        ] LV_CALL_EXTRACT_POST_HP2 -
+[-        ] UNIFY_POST_HP1           -
+[-        ] UNIFY_POST_HP2           -
+[-        ] LV_DMC_METHYLKIT         -
+[-        ] MULTIQC_METHYLATION      -
+
+executor >  local (1)
+[76/334621] ENVCHECK (ont)           | 1 of 1 ✔
+[-        ] GENOME                   -
+[-        ] DORADO_UNTAR             -
+[-        ] DORADO_CALL              -
+[-        ] LV_QC                    -
+[-        ] LV_CALL_EXTRACT          -
+[-        ] UNIFY                    -
+[-        ] LV_CLAIR3                -
+[-        ] LV_PHASING               -
+[-        ] LV_CALL_EXTRACT_POST_HP1 -
+[-        ] LV_CALL_EXTRACT_POST_HP2 -
+[-        ] UNIFY_POST_HP1           -
+[-        ] UNIFY_POST_HP2           -
+[-        ] LV_DMC_METHYLKIT         -
+[-        ] MULTIQC_METHYLATION      -
+
+executor >  local (2)
+[76/334621] ENVCHECK (ont)           | 1 of 1 ✔
+[ed/5f0366] GENOME (ont)             | 0 of 1
+[-        ] DORADO_UNTAR             -
+[-        ] DORADO_CALL              -
+[-        ] LV_QC                    -
+[-        ] LV_CALL_EXTRACT          -
+[-        ] UNIFY                    -
+[-        ] LV_CLAIR3                -
+[-        ] LV_PHASING               -
+[-        ] LV_CALL_EXTRACT_POST_HP1 -
+[-        ] LV_CALL_EXTRACT_POST_HP2 -
+[-        ] UNIFY_POST_HP1           -
+[-        ] UNIFY_POST_HP2           -
+[-        ] LV_DMC_METHYLKIT         -
+[-        ] MULTIQC_METHYLATION      -
+
+executor >  local (2)
+[76/334621] ENVCHECK (ont)           | 1 of 1 ✔
+[ed/5f0366] GENOME (ont)             | 1 of 1 ✔
+[-        ] DORADO_UNTAR             -
+[-        ] DORADO_CALL              -
+[-        ] LV_QC                    -
+[-        ] LV_CALL_EXTRACT          -
+[-        ] UNIFY                    -
+[-        ] LV_CLAIR3                -
+[-        ] LV_PHASING               -
+[-        ] LV_CALL_EXTRACT_POST_HP1 -
+[-        ] LV_CALL_EXTRACT_POST_HP2 -
+[-        ] UNIFY_POST_HP1           -
+[-        ] UNIFY_POST_HP2           -
+[-        ] LV_DMC_METHYLKIT         -
+[-        ] MULTIQC_METHYLATION      -
+Staging foreign file: https://zenodo.org/records/23090404/files/chr20_GNAS_ont_pod5.tar.gz
+
+executor >  local (3)
+[76/334621] ENVCHECK (ont)           | 1 of 1 ✔
+[ed/5f0366] GENOME (ont)             | 1 of 1 ✔
+[8c/c9028e] DORADO_UNTAR (ont)       | 0 of 1
+[-        ] DORADO_CALL              -
+[-        ] LV_QC                    -
+[-        ] LV_CALL_EXTRACT          -
+[-        ] UNIFY                    -
+[-        ] LV_CLAIR3                -
+[-        ] LV_PHASING               -
+[-        ] LV_CALL_EXTRACT_POST_HP1 -
+[-        ] LV_CALL_EXTRACT_POST_HP2 -
+[-        ] UNIFY_POST_HP1           -
+[-        ] UNIFY_POST_HP2           -
+[-        ] LV_DMC_METHYLKIT         -
+[-        ] MULTIQC_METHYLATION      -
+Staging foreign file: https://zenodo.org/records/23090404/files/chr20_GNAS_ont_pod5.tar.gz
+
+executor >  local (4)
+[76/334621] ENVCHECK (ont)           | 1 of 1 ✔
+[ed/5f0366] GENOME (ont)             | 1 of 1 ✔
+[8c/c9028e] DORADO_UNTAR (ont)       | 1 of 1 ✔
+[57/423954] DORADO_CALL (ont)        | 0 of 1
+[-        ] LV_QC                    -
+[-        ] LV_CALL_EXTRACT          -
+[-        ] UNIFY                    -
+[-        ] LV_CLAIR3                -
+[-        ] LV_PHASING               -
+[-        ] LV_CALL_EXTRACT_POST_HP1 -
+[-        ] LV_CALL_EXTRACT_POST_HP2 -
+[-        ] UNIFY_POST_HP1           -
+[-        ] UNIFY_POST_HP2           -
+[-        ] LV_DMC_METHYLKIT         -
+[-        ] MULTIQC_METHYLATION      -
+Staging foreign file: https://zenodo.org/records/23090404/files/chr20_GNAS_ont_pod5.tar.gz
+
+executor >  local (4)
+[76/334621] ENVCHECK (ont)           | 1 of 1 ✔
+[ed/5f0366] GENOME (ont)             | 1 of 1 ✔
+[8c/c9028e] DORADO_UNTAR (ont)       | 1 of 1 ✔
+[57/423954] DORADO_CALL (ont)        | 1 of 1 ✔
+[-        ] LV_QC                    | 0 of 1
+[-        ] LV_CALL_EXTRACT          -
+[-        ] UNIFY                    -
+[-        ] LV_CLAIR3                -
+[-        ] LV_PHASING               -
+[-        ] LV_CALL_EXTRACT_POST_HP1 -
+[-        ] LV_CALL_EXTRACT_POST_HP2 -
+[-        ] UNIFY_POST_HP1           -
+[-        ] UNIFY_POST_HP2           -
+[-        ] LV_DMC_METHYLKIT         -
+[-        ] MULTIQC_METHYLATION      -
+
+
+executor >  local (7)
+[76/334621] ENVCHECK (ont)             | 1 of 1 ✔
+[ed/5f0366] GENOME (ont)               | 1 of 1 ✔
+[8c/c9028e] DORADO_UNTAR (ont)         | 1 of 1 ✔
+[57/423954] DORADO_CALL (ont)          | 1 of 1 ✔
+[55/cc248f] LV_QC (ont)                | 0 of 1
+[79/a54ae9] LV_CALL_EXTRACT (per_read) | 0 of 1
+[-        ] UNIFY                      -
+[b9/708ef0] LV_CLAIR3 (ont)            | 0 of 1
+[-        ] LV_PHASING                 -
+[-        ] LV_CALL_EXTRACT_POST_HP1   -
+[-        ] LV_CALL_EXTRACT_POST_HP2   -
+[-        ] UNIFY_POST_HP1             -
+[-        ] UNIFY_POST_HP2             -
+[-        ] LV_DMC_METHYLKIT           -
+[-        ] MULTIQC_METHYLATION        -
+
+
+executor >  local (8)
+[76/334621] ENVCHECK (ont)             | 1 of 1 ✔
+[ed/5f0366] GENOME (ont)               | 1 of 1 ✔
+[8c/c9028e] DORADO_UNTAR (ont)         | 1 of 1 ✔
+[57/423954] DORADO_CALL (ont)          | 1 of 1 ✔
+[55/cc248f] LV_QC (ont)                | 0 of 1
+[79/a54ae9] LV_CALL_EXTRACT (per_read) | 1 of 1 ✔
+[7e/3be660] UNIFY (all)                | 0 of 1
+[b9/708ef0] LV_CLAIR3 (ont)            | 0 of 1
+[-        ] LV_PHASING                 -
+[-        ] LV_CALL_EXTRACT_POST_HP1   -
+[-        ] LV_CALL_EXTRACT_POST_HP2   -
+[-        ] UNIFY_POST_HP1             -
+[-        ] UNIFY_POST_HP2             -
+[-        ] LV_DMC_METHYLKIT           -
+[-        ] MULTIQC_METHYLATION        -
+
+executor >  local (8)
+[76/334621] ENVCHECK (ont)             | 1 of 1 ✔
+[ed/5f0366] GENOME (ont)               | 1 of 1 ✔
+[8c/c9028e] DORADO_UNTAR (ont)         | 1 of 1 ✔
+[57/423954] DORADO_CALL (ont)          | 1 of 1 ✔
+[55/cc248f] LV_QC (ont)                | 1 of 1 ✔
+[79/a54ae9] LV_CALL_EXTRACT (per_read) | 1 of 1 ✔
+[7e/3be660] UNIFY (all)                | 0 of 1
+[b9/708ef0] LV_CLAIR3 (ont)            | 0 of 1
+[-        ] LV_PHASING                 -
+[-        ] LV_CALL_EXTRACT_POST_HP1   -
+[-        ] LV_CALL_EXTRACT_POST_HP2   -
+[-        ] UNIFY_POST_HP1             -
+[-        ] UNIFY_POST_HP2             -
+[-        ] LV_DMC_METHYLKIT           -
+[-        ] MULTIQC_METHYLATION        -
+
+executor >  local (8)
+[76/334621] ENVCHECK (ont)             | 1 of 1 ✔
+[ed/5f0366] GENOME (ont)               | 1 of 1 ✔
+[8c/c9028e] DORADO_UNTAR (ont)         | 1 of 1 ✔
+[57/423954] DORADO_CALL (ont)          | 1 of 1 ✔
+[55/cc248f] LV_QC (ont)                | 1 of 1 ✔
+[79/a54ae9] LV_CALL_EXTRACT (per_read) | 1 of 1 ✔
+[7e/3be660] UNIFY (all)                | 1 of 1 ✔
+[b9/708ef0] LV_CLAIR3 (ont)            | 0 of 1
+[-        ] LV_PHASING                 -
+[-        ] LV_CALL_EXTRACT_POST_HP1   -
+[-        ] LV_CALL_EXTRACT_POST_HP2   -
+[-        ] UNIFY_POST_HP1             -
+[-        ] UNIFY_POST_HP2             -
+[-        ] LV_DMC_METHYLKIT           -
+[-        ] MULTIQC_METHYLATION        -
+
+executor >  local (9)
+[76/334621] ENVCHECK (ont)             | 1 of 1 ✔
+[ed/5f0366] GENOME (ont)               | 1 of 1 ✔
+[8c/c9028e] DORADO_UNTAR (ont)         | 1 of 1 ✔
+[57/423954] DORADO_CALL (ont)          | 1 of 1 ✔
+[55/cc248f] LV_QC (ont)                | 1 of 1 ✔
+[79/a54ae9] LV_CALL_EXTRACT (per_read) | 1 of 1 ✔
+[7e/3be660] UNIFY (all)                | 1 of 1 ✔
+[b9/708ef0] LV_CLAIR3 (ont)            | 1 of 1 ✔
+[f3/2d2a2d] LV_PHASING (ont)           | 0 of 1
+[-        ] LV_CALL_EXTRACT_POST_HP1   -
+[-        ] LV_CALL_EXTRACT_POST_HP2   -
+[-        ] UNIFY_POST_HP1             -
+[-        ] UNIFY_POST_HP2             -
+[-        ] LV_DMC_METHYLKIT           -
+[-        ] MULTIQC_METHYLATION        -
+
+executor >  local (11)
+[76/334621] ENVCHECK (ont)                 | 1 of 1 ✔
+[ed/5f0366] GENOME (ont)                   | 1 of 1 ✔
+[8c/c9028e] DORADO_UNTAR (ont)             | 1 of 1 ✔
+[57/423954] DORADO_CALL (ont)              | 1 of 1 ✔
+[55/cc248f] LV_QC (ont)                    | 1 of 1 ✔
+[79/a54ae9] LV_CALL_EXTRACT (per_read)     | 1 of 1 ✔
+[7e/3be660] UNIFY (all)                    | 1 of 1 ✔
+[b9/708ef0] LV_CLAIR3 (ont)                | 1 of 1 ✔
+[f3/2d2a2d] LV_PHASING (ont)               | 1 of 1 ✔
+[d4/6fe72e] LV_…CT_POST_HP1 (per_read_HP1) | 0 of 1
+[89/8762c2] LV_…CT_POST_HP2 (per_read_HP2) | 0 of 1
+[-        ] UNIFY_POST_HP1                 -
+[-        ] UNIFY_POST_HP2                 -
+[-        ] LV_DMC_METHYLKIT               -
+[-        ] MULTIQC_METHYLATION            -
+
+executor >  local (13)
+[76/334621] ENVCHECK (ont)                 | 1 of 1 ✔
+[ed/5f0366] GENOME (ont)                   | 1 of 1 ✔
+[8c/c9028e] DORADO_UNTAR (ont)             | 1 of 1 ✔
+[57/423954] DORADO_CALL (ont)              | 1 of 1 ✔
+[55/cc248f] LV_QC (ont)                    | 1 of 1 ✔
+[79/a54ae9] LV_CALL_EXTRACT (per_read)     | 1 of 1 ✔
+[7e/3be660] UNIFY (all)                    | 1 of 1 ✔
+[b9/708ef0] LV_CLAIR3 (ont)                | 1 of 1 ✔
+[f3/2d2a2d] LV_PHASING (ont)               | 1 of 1 ✔
+[d4/6fe72e] LV_…CT_POST_HP1 (per_read_HP1) | 1 of 1 ✔
+[89/8762c2] LV_…CT_POST_HP2 (per_read_HP2) | 1 of 1 ✔
+[61/92a2bf] UNIFY_POST_HP1 (HP1)           | 0 of 1
+[18/768456] UNIFY_POST_HP2 (HP2)           | 0 of 1
+[-        ] LV_DMC_METHYLKIT               -
+[-        ] MULTIQC_METHYLATION            -
+
+executor >  local (13)
+[76/334621] ENVCHECK (ont)                 | 1 of 1 ✔
+[ed/5f0366] GENOME (ont)                   | 1 of 1 ✔
+[8c/c9028e] DORADO_UNTAR (ont)             | 1 of 1 ✔
+[57/423954] DORADO_CALL (ont)              | 1 of 1 ✔
+[55/cc248f] LV_QC (ont)                    | 1 of 1 ✔
+[79/a54ae9] LV_CALL_EXTRACT (per_read)     | 1 of 1 ✔
+[7e/3be660] UNIFY (all)                    | 1 of 1 ✔
+[b9/708ef0] LV_CLAIR3 (ont)                | 1 of 1 ✔
+[f3/2d2a2d] LV_PHASING (ont)               | 1 of 1 ✔
+[d4/6fe72e] LV_…CT_POST_HP1 (per_read_HP1) | 1 of 1 ✔
+[89/8762c2] LV_…CT_POST_HP2 (per_read_HP2) | 1 of 1 ✔
+[61/92a2bf] UNIFY_POST_HP1 (HP1)           | 0 of 1
+[18/768456] UNIFY_POST_HP2 (HP2)           | 0 of 1
+[-        ] LV_DMC_METHYLKIT               -
+[-        ] MULTIQC_METHYLATION            -
+
+executor >  local (13)
+[76/334621] ENVCHECK (ont)                 | 1 of 1 ✔
+[ed/5f0366] GENOME (ont)                   | 1 of 1 ✔
+[8c/c9028e] DORADO_UNTAR (ont)             | 1 of 1 ✔
+[57/423954] DORADO_CALL (ont)              | 1 of 1 ✔
+[55/cc248f] LV_QC (ont)                    | 1 of 1 ✔
+[79/a54ae9] LV_CALL_EXTRACT (per_read)     | 1 of 1 ✔
+[7e/3be660] UNIFY (all)                    | 1 of 1 ✔
+[b9/708ef0] LV_CLAIR3 (ont)                | 1 of 1 ✔
+[f3/2d2a2d] LV_PHASING (ont)               | 1 of 1 ✔
+[d4/6fe72e] LV_…CT_POST_HP1 (per_read_HP1) | 1 of 1 ✔
+[89/8762c2] LV_…CT_POST_HP2 (per_read_HP2) | 1 of 1 ✔
+[61/92a2bf] UNIFY_POST_HP1 (HP1)           | 0 of 1
+[18/768456] UNIFY_POST_HP2 (HP2)           | 1 of 1 ✔
+[-        ] LV_DMC_METHYLKIT               -
+[-        ] MULTIQC_METHYLATION            -
+
+executor >  local (14)
+[76/334621] ENVCHECK (ont)                 | 1 of 1 ✔
+[ed/5f0366] GENOME (ont)                   | 1 of 1 ✔
+[8c/c9028e] DORADO_UNTAR (ont)             | 1 of 1 ✔
+[57/423954] DORADO_CALL (ont)              | 1 of 1 ✔
+[55/cc248f] LV_QC (ont)                    | 1 of 1 ✔
+[79/a54ae9] LV_CALL_EXTRACT (per_read)     | 1 of 1 ✔
+[7e/3be660] UNIFY (all)                    | 1 of 1 ✔
+[b9/708ef0] LV_CLAIR3 (ont)                | 1 of 1 ✔
+[f3/2d2a2d] LV_PHASING (ont)               | 1 of 1 ✔
+[d4/6fe72e] LV_…CT_POST_HP1 (per_read_HP1) | 1 of 1 ✔
+[89/8762c2] LV_…CT_POST_HP2 (per_read_HP2) | 1 of 1 ✔
+[61/92a2bf] UNIFY_POST_HP1 (HP1)           | 1 of 1 ✔
+[18/768456] UNIFY_POST_HP2 (HP2)           | 1 of 1 ✔
+[e9/7b2daf] LV_DMC_METHYLKIT (ont)         | 0 of 1
+[-        ] MULTIQC_METHYLATION            -
+
+executor >  local (15)
+[76/334621] ENVCHECK (ont)                 | 1 of 1 ✔
+[ed/5f0366] GENOME (ont)                   | 1 of 1 ✔
+[8c/c9028e] DORADO_UNTAR (ont)             | 1 of 1 ✔
+[57/423954] DORADO_CALL (ont)              | 1 of 1 ✔
+[55/cc248f] LV_QC (ont)                    | 1 of 1 ✔
+[79/a54ae9] LV_CALL_EXTRACT (per_read)     | 1 of 1 ✔
+[7e/3be660] UNIFY (all)                    | 1 of 1 ✔
+[b9/708ef0] LV_CLAIR3 (ont)                | 1 of 1 ✔
+[f3/2d2a2d] LV_PHASING (ont)               | 1 of 1 ✔
+[d4/6fe72e] LV_…CT_POST_HP1 (per_read_HP1) | 1 of 1 ✔
+[89/8762c2] LV_…CT_POST_HP2 (per_read_HP2) | 1 of 1 ✔
+[61/92a2bf] UNIFY_POST_HP1 (HP1)           | 1 of 1 ✔
+[18/768456] UNIFY_POST_HP2 (HP2)           | 1 of 1 ✔
+[e9/7b2daf] LV_DMC_METHYLKIT (ont)         | 0 of 1
+[5a/38ec67] MULTIQC_METHYLATION (ont)      | 0 of 1
+
+executor >  local (15)
+[76/334621] ENVCHECK (ont)                 | 1 of 1 ✔
+[ed/5f0366] GENOME (ont)                   | 1 of 1 ✔
+[8c/c9028e] DORADO_UNTAR (ont)             | 1 of 1 ✔
+[57/423954] DORADO_CALL (ont)              | 1 of 1 ✔
+[55/cc248f] LV_QC (ont)                    | 1 of 1 ✔
+[79/a54ae9] LV_CALL_EXTRACT (per_read)     | 1 of 1 ✔
+[7e/3be660] UNIFY (all)                    | 1 of 1 ✔
+[b9/708ef0] LV_CLAIR3 (ont)                | 1 of 1 ✔
+[f3/2d2a2d] LV_PHASING (ont)               | 1 of 1 ✔
+[d4/6fe72e] LV_…CT_POST_HP1 (per_read_HP1) | 1 of 1 ✔
+[89/8762c2] LV_…CT_POST_HP2 (per_read_HP2) | 1 of 1 ✔
+[61/92a2bf] UNIFY_POST_HP1 (HP1)           | 1 of 1 ✔
+[18/768456] UNIFY_POST_HP2 (HP2)           | 1 of 1 ✔
+[e9/7b2daf] LV_DMC_METHYLKIT (ont)         | 0 of 1
+[5a/38ec67] MULTIQC_METHYLATION (ont)      | 1 of 1 ✔
+
+executor >  local (15)
+[76/334621] ENVCHECK (ont)                 | 1 of 1 ✔
+[ed/5f0366] GENOME (ont)                   | 1 of 1 ✔
+[8c/c9028e] DORADO_UNTAR (ont)             | 1 of 1 ✔
+[57/423954] DORADO_CALL (ont)              | 1 of 1 ✔
+[55/cc248f] LV_QC (ont)                    | 1 of 1 ✔
+[79/a54ae9] LV_CALL_EXTRACT (per_read)     | 1 of 1 ✔
+[7e/3be660] UNIFY (all)                    | 1 of 1 ✔
+[b9/708ef0] LV_CLAIR3 (ont)                | 1 of 1 ✔
+[f3/2d2a2d] LV_PHASING (ont)               | 1 of 1 ✔
+[d4/6fe72e] LV_…CT_POST_HP1 (per_read_HP1) | 1 of 1 ✔
+[89/8762c2] LV_…CT_POST_HP2 (per_read_HP2) | 1 of 1 ✔
+[61/92a2bf] UNIFY_POST_HP1 (HP1)           | 1 of 1 ✔
+[18/768456] UNIFY_POST_HP2 (HP2)           | 1 of 1 ✔
+[e9/7b2daf] LV_DMC_METHYLKIT (ont)         | 1 of 1 ✔
+[5a/38ec67] MULTIQC_METHYLATION (ont)      | 1 of 1 ✔
+
+executor >  local (15)
+[76/334621] ENVCHECK (ont)                 | 1 of 1 ✔
+[ed/5f0366] GENOME (ont)                   | 1 of 1 ✔
+[8c/c9028e] DORADO_UNTAR (ont)             | 1 of 1 ✔
+[57/423954] DORADO_CALL (ont)              | 1 of 1 ✔
+[55/cc248f] LV_QC (ont)                    | 1 of 1 ✔
+[79/a54ae9] LV_CALL_EXTRACT (per_read)     | 1 of 1 ✔
+[7e/3be660] UNIFY (all)                    | 1 of 1 ✔
+[b9/708ef0] LV_CLAIR3 (ont)                | 1 of 1 ✔
+[f3/2d2a2d] LV_PHASING (ont)               | 1 of 1 ✔
+[d4/6fe72e] LV_…CT_POST_HP1 (per_read_HP1) | 1 of 1 ✔
+[89/8762c2] LV_…CT_POST_HP2 (per_read_HP2) | 1 of 1 ✔
+[61/92a2bf] UNIFY_POST_HP1 (HP1)           | 1 of 1 ✔
+[18/768456] UNIFY_POST_HP2 (HP2)           | 1 of 1 ✔
+[e9/7b2daf] LV_DMC_METHYLKIT (ont)         | 1 of 1 ✔
+[5a/38ec67] MULTIQC_METHYLATION (ont)      | 1 of 1 ✔
+Completed at: 04-Oct-2026 15:21:04
+Duration    : 2m 49s
+CPU hours   : 0.1
+Succeeded   : 15
+
+

@@ -1,0 +1,471 @@
+Nextflow 26.04.6 is available - Please consider updating your version to it[m
+
+ N E X T F L O W   ~  version 25.10.4
+
+Pulling LabShengLi/longverse ...
+ Already-up-to-date
+Launching `https://github.com/LabShengLi/longverse` [focused_ptolemy] DSL2 - revision: af38294882 [main]
+
+LongVerse — long-read pipeline (v2.0.0)
+Sheng Li Lab · https://github.com/LabShengLi/longverse
+=================================
+(2) PacBio · Jasmine / HiFi modBam
+Launch dir   : /scratch1/$USER/longverse_tutorial/pacbio
+Work dir     : /scratch1/$USER/longverse_tutorial/pacbio/work
+Output dir   : pacbio
+Profile      : singularity
+Config files : /scratch1/$USER/longverse_tutorial/nxf_home/assets/LabShengLi/longverse/nextflow.config
+=================================
+Mandatory inputs
+  dsname : pacbio
+  input  : https://zenodo.org/records/23090404/files/chr20_GNAS_pacbio_kinetics.tar.gz
+  genome : https://zenodo.org/records/23090404/files/chr20_GNAS_ref.tar.gz
+=================================
+Params differing from nextflow.config defaults
+  CLAIR3_MODEL_NAME : hifi_sequel2
+chrSet : chr20:60574425-60694782
+clair3_platform : hifi
+containerOptions : -B /scratch1/$USER/longverse_tutorial/pacbio
+ctg_name : chr20:60574425-60694782
+dmc_methylkit_dmc_test : fast.fisher
+dmc_methylkit_step_size : 200
+dmc_methylkit_tile_width : 200
+docker_name : ghcr.io/liuyang2006/dockerlongverse:latest
+dsname : pacbio
+ecosystem : jasmine
+file_format : bam
+genome : https://zenodo.org/records/23090404/files/chr20_GNAS_ref.tar.gz
+input : https://zenodo.org/records/23090404/files/chr20_GNAS_pacbio_kinetics.tar.gz
+methylkit_docker_name : quay.io/biocontainers/bioconductor-methylkit:1.36.0--r45ha27e39d_0
+outdir : pacbio
+phasing : true
+platform : pacbio
+runMultiqc : true
+singularity_name : docker://ghcr.io/liuyang2006/dockerlongverse:latest
+=================================
+nextflow run LabShengLi/longverse -latest -profile singularity --dsname pacbio --input 'https://zenodo.org/records/23090404/files/chr20_GNAS_pacbio_kinetics.tar.gz' --genome 'https://zenodo.org/records/23090404/files/chr20_GNAS_ref.tar.gz' --platform pacbio --ecosystem jasmine --input_bam false --file_format bam --phasing true --chrSet 'chr20:60574425-60694782' --ctg_name 'chr20:60574425-60694782' --clair3_platform hifi --CLAIR3_MODEL_NAME hifi_sequel2 --outdir pacbio --containerOptions '-B /scratch1/$USER/longverse_tutorial/pacbio'
+=================================
+
+[-        ] ENVCHECK                 -
+[-        ] GENOME                   -
+[-        ] PB_UNTAR                 -
+[-        ] PB_JASMINE               -
+[-        ] PB_PBMM2                 -
+[-        ] LV_QC                    -
+[-        ] LV_CALL_EXTRACT          -
+[-        ] UNIFY                    -
+[-        ] LV_CLAIR3                -
+[-        ] LV_PHASING               -
+[-        ] LV_CALL_EXTRACT_POST_HP1 -
+[-        ] LV_CALL_EXTRACT_POST_HP2 -
+[-        ] UNIFY_POST_HP1           -
+[-        ] UNIFY_POST_HP2           -
+[-        ] LV_DMC_METHYLKIT         -
+[-        ] MULTIQC_METHYLATION      -
+
+executor >  local (1)
+[63/83c50f] ENVCHECK (pacbio)        | 0 of 1
+[-        ] GENOME                   -
+[-        ] PB_UNTAR                 -
+[-        ] PB_JASMINE               -
+[-        ] PB_PBMM2                 -
+[-        ] LV_QC                    -
+[-        ] LV_CALL_EXTRACT          -
+[-        ] UNIFY                    -
+[-        ] LV_CLAIR3                -
+[-        ] LV_PHASING               -
+[-        ] LV_CALL_EXTRACT_POST_HP1 -
+[-        ] LV_CALL_EXTRACT_POST_HP2 -
+[-        ] UNIFY_POST_HP1           -
+[-        ] UNIFY_POST_HP2           -
+[-        ] LV_DMC_METHYLKIT         -
+[-        ] MULTIQC_METHYLATION      -
+
+executor >  local (1)
+[63/83c50f] ENVCHECK (pacbio)        | 1 of 1 ✔
+[-        ] GENOME                   -
+[-        ] PB_UNTAR                 -
+[-        ] PB_JASMINE               -
+[-        ] PB_PBMM2                 -
+[-        ] LV_QC                    -
+[-        ] LV_CALL_EXTRACT          -
+[-        ] UNIFY                    -
+[-        ] LV_CLAIR3                -
+[-        ] LV_PHASING               -
+[-        ] LV_CALL_EXTRACT_POST_HP1 -
+[-        ] LV_CALL_EXTRACT_POST_HP2 -
+[-        ] UNIFY_POST_HP1           -
+[-        ] UNIFY_POST_HP2           -
+[-        ] LV_DMC_METHYLKIT         -
+[-        ] MULTIQC_METHYLATION      -
+
+executor >  local (2)
+[63/83c50f] ENVCHECK (pacbio)        | 1 of 1 ✔
+[62/57caf7] GENOME (pacbio)          | 0 of 1
+[-        ] PB_UNTAR                 -
+[-        ] PB_JASMINE               -
+[-        ] PB_PBMM2                 -
+[-        ] LV_QC                    -
+[-        ] LV_CALL_EXTRACT          -
+[-        ] UNIFY                    -
+[-        ] LV_CLAIR3                -
+[-        ] LV_PHASING               -
+[-        ] LV_CALL_EXTRACT_POST_HP1 -
+[-        ] LV_CALL_EXTRACT_POST_HP2 -
+[-        ] UNIFY_POST_HP1           -
+[-        ] UNIFY_POST_HP2           -
+[-        ] LV_DMC_METHYLKIT         -
+[-        ] MULTIQC_METHYLATION      -
+
+executor >  local (2)
+[63/83c50f] ENVCHECK (pacbio)        | 1 of 1 ✔
+[62/57caf7] GENOME (pacbio)          | 1 of 1 ✔
+[-        ] PB_UNTAR                 -
+[-        ] PB_JASMINE               -
+[-        ] PB_PBMM2                 -
+[-        ] LV_QC                    -
+[-        ] LV_CALL_EXTRACT          -
+[-        ] UNIFY                    -
+[-        ] LV_CLAIR3                -
+[-        ] LV_PHASING               -
+[-        ] LV_CALL_EXTRACT_POST_HP1 -
+[-        ] LV_CALL_EXTRACT_POST_HP2 -
+[-        ] UNIFY_POST_HP1           -
+[-        ] UNIFY_POST_HP2           -
+[-        ] LV_DMC_METHYLKIT         -
+[-        ] MULTIQC_METHYLATION      -
+
+executor >  local (2)
+[63/83c50f] ENVCHECK (pacbio)        | 1 of 1 ✔
+[62/57caf7] GENOME (pacbio)          | 1 of 1 ✔
+[-        ] PB_UNTAR                 -
+[-        ] PB_JASMINE               -
+[-        ] PB_PBMM2                 -
+[-        ] LV_QC                    -
+[-        ] LV_CALL_EXTRACT          -
+[-        ] UNIFY                    -
+[-        ] LV_CLAIR3                -
+[-        ] LV_PHASING               -
+[-        ] LV_CALL_EXTRACT_POST_HP1 -
+[-        ] LV_CALL_EXTRACT_POST_HP2 -
+[-        ] UNIFY_POST_HP1           -
+[-        ] UNIFY_POST_HP2           -
+[-        ] LV_DMC_METHYLKIT         -
+[-        ] MULTIQC_METHYLATION      -
+Staging foreign file: https://zenodo.org/records/23090404/files/chr20_GNAS_pacbio_kinetics.tar.gz
+
+executor >  local (3)
+[63/83c50f] ENVCHECK (pacbio)        | 1 of 1 ✔
+[62/57caf7] GENOME (pacbio)          | 1 of 1 ✔
+[c4/b370d9] PB_UNTAR (pacbio)        | 0 of 1
+[-        ] PB_JASMINE               -
+[-        ] PB_PBMM2                 -
+[-        ] LV_QC                    -
+[-        ] LV_CALL_EXTRACT          -
+[-        ] UNIFY                    -
+[-        ] LV_CLAIR3                -
+[-        ] LV_PHASING               -
+[-        ] LV_CALL_EXTRACT_POST_HP1 -
+[-        ] LV_CALL_EXTRACT_POST_HP2 -
+[-        ] UNIFY_POST_HP1           -
+[-        ] UNIFY_POST_HP2           -
+[-        ] LV_DMC_METHYLKIT         -
+[-        ] MULTIQC_METHYLATION      -
+Staging foreign file: https://zenodo.org/records/23090404/files/chr20_GNAS_pacbio_kinetics.tar.gz
+
+executor >  local (4)
+[63/83c50f] ENVCHECK (pacbio)        | 1 of 1 ✔
+[62/57caf7] GENOME (pacbio)          | 1 of 1 ✔
+[c4/b370d9] PB_UNTAR (pacbio)        | 1 of 1 ✔
+[62/6aa55c] PB_JASMINE (pacbio)      | 0 of 1
+[-        ] PB_PBMM2                 -
+[-        ] LV_QC                    -
+[-        ] LV_CALL_EXTRACT          -
+[-        ] UNIFY                    -
+[-        ] LV_CLAIR3                -
+[-        ] LV_PHASING               -
+[-        ] LV_CALL_EXTRACT_POST_HP1 -
+[-        ] LV_CALL_EXTRACT_POST_HP2 -
+[-        ] UNIFY_POST_HP1           -
+[-        ] UNIFY_POST_HP2           -
+[-        ] LV_DMC_METHYLKIT         -
+[-        ] MULTIQC_METHYLATION      -
+Staging foreign file: https://zenodo.org/records/23090404/files/chr20_GNAS_pacbio_kinetics.tar.gz
+
+executor >  local (5)
+[63/83c50f] ENVCHECK (pacbio)        | 1 of 1 ✔
+[62/57caf7] GENOME (pacbio)          | 1 of 1 ✔
+[c4/b370d9] PB_UNTAR (pacbio)        | 1 of 1 ✔
+[62/6aa55c] PB_JASMINE (pacbio)      | 1 of 1 ✔
+[c0/b8f512] PB_PBMM2 (pacbio)        | 0 of 1
+[-        ] LV_QC                    -
+[-        ] LV_CALL_EXTRACT          -
+[-        ] UNIFY                    -
+[-        ] LV_CLAIR3                -
+[-        ] LV_PHASING               -
+[-        ] LV_CALL_EXTRACT_POST_HP1 -
+[-        ] LV_CALL_EXTRACT_POST_HP2 -
+[-        ] UNIFY_POST_HP1           -
+[-        ] UNIFY_POST_HP2           -
+[-        ] LV_DMC_METHYLKIT         -
+[-        ] MULTIQC_METHYLATION      -
+Staging foreign file: https://zenodo.org/records/23090404/files/chr20_GNAS_pacbio_kinetics.tar.gz
+
+executor >  local (8)
+[63/83c50f] ENVCHECK (pacbio)          | 1 of 1 ✔
+[62/57caf7] GENOME (pacbio)            | 1 of 1 ✔
+[c4/b370d9] PB_UNTAR (pacbio)          | 1 of 1 ✔
+[62/6aa55c] PB_JASMINE (pacbio)        | 1 of 1 ✔
+[c0/b8f512] PB_PBMM2 (pacbio)          | 1 of 1 ✔
+[ae/c24b3d] LV_QC (pacbio)             | 0 of 1
+[26/e6865b] LV_CALL_EXTRACT (per_read) | 0 of 1
+[-        ] UNIFY                      -
+[0f/5213d2] LV_CLAIR3 (pacbio)         | 0 of 1
+[-        ] LV_PHASING                 -
+[-        ] LV_CALL_EXTRACT_POST_HP1   -
+[-        ] LV_CALL_EXTRACT_POST_HP2   -
+[-        ] UNIFY_POST_HP1             -
+[-        ] UNIFY_POST_HP2             -
+[-        ] LV_DMC_METHYLKIT           -
+[-        ] MULTIQC_METHYLATION        -
+Staging foreign file: https://zenodo.org/records/23090404/files/chr20_GNAS_pacbio_kinetics.tar.gz
+
+executor >  local (9)
+[63/83c50f] ENVCHECK (pacbio)          | 1 of 1 ✔
+[62/57caf7] GENOME (pacbio)            | 1 of 1 ✔
+[c4/b370d9] PB_UNTAR (pacbio)          | 1 of 1 ✔
+[62/6aa55c] PB_JASMINE (pacbio)        | 1 of 1 ✔
+[c0/b8f512] PB_PBMM2 (pacbio)          | 1 of 1 ✔
+[ae/c24b3d] LV_QC (pacbio)             | 0 of 1
+[26/e6865b] LV_CALL_EXTRACT (per_read) | 1 of 1 ✔
+[79/c3f689] UNIFY (all)                | 0 of 1
+[0f/5213d2] LV_CLAIR3 (pacbio)         | 0 of 1
+[-        ] LV_PHASING                 -
+[-        ] LV_CALL_EXTRACT_POST_HP1   -
+[-        ] LV_CALL_EXTRACT_POST_HP2   -
+[-        ] UNIFY_POST_HP1             -
+[-        ] UNIFY_POST_HP2             -
+[-        ] LV_DMC_METHYLKIT           -
+[-        ] MULTIQC_METHYLATION        -
+Staging foreign file: https://zenodo.org/records/23090404/files/chr20_GNAS_pacbio_kinetics.tar.gz
+
+executor >  local (9)
+[63/83c50f] ENVCHECK (pacbio)          | 1 of 1 ✔
+[62/57caf7] GENOME (pacbio)            | 1 of 1 ✔
+[c4/b370d9] PB_UNTAR (pacbio)          | 1 of 1 ✔
+[62/6aa55c] PB_JASMINE (pacbio)        | 1 of 1 ✔
+[c0/b8f512] PB_PBMM2 (pacbio)          | 1 of 1 ✔
+[ae/c24b3d] LV_QC (pacbio)             | 1 of 1 ✔
+[26/e6865b] LV_CALL_EXTRACT (per_read) | 1 of 1 ✔
+[79/c3f689] UNIFY (all)                | 0 of 1
+[0f/5213d2] LV_CLAIR3 (pacbio)         | 0 of 1
+[-        ] LV_PHASING                 -
+[-        ] LV_CALL_EXTRACT_POST_HP1   -
+[-        ] LV_CALL_EXTRACT_POST_HP2   -
+[-        ] UNIFY_POST_HP1             -
+[-        ] UNIFY_POST_HP2             -
+[-        ] LV_DMC_METHYLKIT           -
+[-        ] MULTIQC_METHYLATION        -
+Staging foreign file: https://zenodo.org/records/23090404/files/chr20_GNAS_pacbio_kinetics.tar.gz
+
+executor >  local (9)
+[63/83c50f] ENVCHECK (pacbio)          | 1 of 1 ✔
+[62/57caf7] GENOME (pacbio)            | 1 of 1 ✔
+[c4/b370d9] PB_UNTAR (pacbio)          | 1 of 1 ✔
+[62/6aa55c] PB_JASMINE (pacbio)        | 1 of 1 ✔
+[c0/b8f512] PB_PBMM2 (pacbio)          | 1 of 1 ✔
+[ae/c24b3d] LV_QC (pacbio)             | 1 of 1 ✔
+[26/e6865b] LV_CALL_EXTRACT (per_read) | 1 of 1 ✔
+[79/c3f689] UNIFY (all)                | 1 of 1 ✔
+[0f/5213d2] LV_CLAIR3 (pacbio)         | 0 of 1
+[-        ] LV_PHASING                 -
+[-        ] LV_CALL_EXTRACT_POST_HP1   -
+[-        ] LV_CALL_EXTRACT_POST_HP2   -
+[-        ] UNIFY_POST_HP1             -
+[-        ] UNIFY_POST_HP2             -
+[-        ] LV_DMC_METHYLKIT           -
+[-        ] MULTIQC_METHYLATION        -
+Staging foreign file: https://zenodo.org/records/23090404/files/chr20_GNAS_pacbio_kinetics.tar.gz
+
+executor >  local (10)
+[63/83c50f] ENVCHECK (pacbio)          | 1 of 1 ✔
+[62/57caf7] GENOME (pacbio)            | 1 of 1 ✔
+[c4/b370d9] PB_UNTAR (pacbio)          | 1 of 1 ✔
+[62/6aa55c] PB_JASMINE (pacbio)        | 1 of 1 ✔
+[c0/b8f512] PB_PBMM2 (pacbio)          | 1 of 1 ✔
+[ae/c24b3d] LV_QC (pacbio)             | 1 of 1 ✔
+[26/e6865b] LV_CALL_EXTRACT (per_read) | 1 of 1 ✔
+[79/c3f689] UNIFY (all)                | 1 of 1 ✔
+[0f/5213d2] LV_CLAIR3 (pacbio)         | 1 of 1 ✔
+[9d/6f4359] LV_PHASING (pacbio)        | 0 of 1
+[-        ] LV_CALL_EXTRACT_POST_HP1   -
+[-        ] LV_CALL_EXTRACT_POST_HP2   -
+[-        ] UNIFY_POST_HP1             -
+[-        ] UNIFY_POST_HP2             -
+[-        ] LV_DMC_METHYLKIT           -
+[-        ] MULTIQC_METHYLATION        -
+
+
+executor >  local (12)
+[63/83c50f] ENVCHECK (pacbio)              | 1 of 1 ✔
+[62/57caf7] GENOME (pacbio)                | 1 of 1 ✔
+[c4/b370d9] PB_UNTAR (pacbio)              | 1 of 1 ✔
+[62/6aa55c] PB_JASMINE (pacbio)            | 1 of 1 ✔
+[c0/b8f512] PB_PBMM2 (pacbio)              | 1 of 1 ✔
+[ae/c24b3d] LV_QC (pacbio)                 | 1 of 1 ✔
+[26/e6865b] LV_CALL_EXTRACT (per_read)     | 1 of 1 ✔
+[79/c3f689] UNIFY (all)                    | 1 of 1 ✔
+[0f/5213d2] LV_CLAIR3 (pacbio)             | 1 of 1 ✔
+[9d/6f4359] LV_PHASING (pacbio)            | 1 of 1 ✔
+[c1/356b41] LV_…CT_POST_HP1 (per_read_HP1) | 0 of 1
+[fc/444fce] LV_…CT_POST_HP2 (per_read_HP2) | 0 of 1
+[-        ] UNIFY_POST_HP1                 -
+[-        ] UNIFY_POST_HP2                 -
+[-        ] LV_DMC_METHYLKIT               -
+[-        ] MULTIQC_METHYLATION            -
+
+
+executor >  local (12)
+[63/83c50f] ENVCHECK (pacbio)              | 1 of 1 ✔
+[62/57caf7] GENOME (pacbio)                | 1 of 1 ✔
+[c4/b370d9] PB_UNTAR (pacbio)              | 1 of 1 ✔
+[62/6aa55c] PB_JASMINE (pacbio)            | 1 of 1 ✔
+[c0/b8f512] PB_PBMM2 (pacbio)              | 1 of 1 ✔
+[ae/c24b3d] LV_QC (pacbio)                 | 1 of 1 ✔
+[26/e6865b] LV_CALL_EXTRACT (per_read)     | 1 of 1 ✔
+[79/c3f689] UNIFY (all)                    | 1 of 1 ✔
+[0f/5213d2] LV_CLAIR3 (pacbio)             | 1 of 1 ✔
+[9d/6f4359] LV_PHASING (pacbio)            | 1 of 1 ✔
+[c1/356b41] LV_…CT_POST_HP1 (per_read_HP1) | 0 of 1
+[fc/444fce] LV_…CT_POST_HP2 (per_read_HP2) | 0 of 1
+[-        ] UNIFY_POST_HP1                 -
+[-        ] UNIFY_POST_HP2                 -
+[-        ] LV_DMC_METHYLKIT               -
+[-        ] MULTIQC_METHYLATION            -
+
+executor >  local (13)
+[63/83c50f] ENVCHECK (pacbio)              | 1 of 1 ✔
+[62/57caf7] GENOME (pacbio)                | 1 of 1 ✔
+[c4/b370d9] PB_UNTAR (pacbio)              | 1 of 1 ✔
+[62/6aa55c] PB_JASMINE (pacbio)            | 1 of 1 ✔
+[c0/b8f512] PB_PBMM2 (pacbio)              | 1 of 1 ✔
+[ae/c24b3d] LV_QC (pacbio)                 | 1 of 1 ✔
+[26/e6865b] LV_CALL_EXTRACT (per_read)     | 1 of 1 ✔
+[79/c3f689] UNIFY (all)                    | 1 of 1 ✔
+[0f/5213d2] LV_CLAIR3 (pacbio)             | 1 of 1 ✔
+[9d/6f4359] LV_PHASING (pacbio)            | 1 of 1 ✔
+[c1/356b41] LV_…CT_POST_HP1 (per_read_HP1) | 1 of 1 ✔
+[fc/444fce] LV_…CT_POST_HP2 (per_read_HP2) | 1 of 1 ✔
+[99/94c9ae] UNIFY_POST_HP1 (HP1)           | 0 of 1
+[-        ] UNIFY_POST_HP2                 | 0 of 1
+[-        ] LV_DMC_METHYLKIT               -
+[-        ] MULTIQC_METHYLATION            -
+
+executor >  local (14)
+[63/83c50f] ENVCHECK (pacbio)              | 1 of 1 ✔
+[62/57caf7] GENOME (pacbio)                | 1 of 1 ✔
+[c4/b370d9] PB_UNTAR (pacbio)              | 1 of 1 ✔
+[62/6aa55c] PB_JASMINE (pacbio)            | 1 of 1 ✔
+[c0/b8f512] PB_PBMM2 (pacbio)              | 1 of 1 ✔
+[ae/c24b3d] LV_QC (pacbio)                 | 1 of 1 ✔
+[26/e6865b] LV_CALL_EXTRACT (per_read)     | 1 of 1 ✔
+[79/c3f689] UNIFY (all)                    | 1 of 1 ✔
+[0f/5213d2] LV_CLAIR3 (pacbio)             | 1 of 1 ✔
+[9d/6f4359] LV_PHASING (pacbio)            | 1 of 1 ✔
+[c1/356b41] LV_…CT_POST_HP1 (per_read_HP1) | 1 of 1 ✔
+[fc/444fce] LV_…CT_POST_HP2 (per_read_HP2) | 1 of 1 ✔
+[99/94c9ae] UNIFY_POST_HP1 (HP1)           | 0 of 1
+[59/34d26f] UNIFY_POST_HP2 (HP2)           | 0 of 1
+[-        ] LV_DMC_METHYLKIT               -
+[-        ] MULTIQC_METHYLATION            -
+
+executor >  local (15)
+[63/83c50f] ENVCHECK (pacbio)              | 1 of 1 ✔
+[62/57caf7] GENOME (pacbio)                | 1 of 1 ✔
+[c4/b370d9] PB_UNTAR (pacbio)              | 1 of 1 ✔
+[62/6aa55c] PB_JASMINE (pacbio)            | 1 of 1 ✔
+[c0/b8f512] PB_PBMM2 (pacbio)              | 1 of 1 ✔
+[ae/c24b3d] LV_QC (pacbio)                 | 1 of 1 ✔
+[26/e6865b] LV_CALL_EXTRACT (per_read)     | 1 of 1 ✔
+[79/c3f689] UNIFY (all)                    | 1 of 1 ✔
+[0f/5213d2] LV_CLAIR3 (pacbio)             | 1 of 1 ✔
+[9d/6f4359] LV_PHASING (pacbio)            | 1 of 1 ✔
+[c1/356b41] LV_…CT_POST_HP1 (per_read_HP1) | 1 of 1 ✔
+[fc/444fce] LV_…CT_POST_HP2 (per_read_HP2) | 1 of 1 ✔
+[99/94c9ae] UNIFY_POST_HP1 (HP1)           | 1 of 1 ✔
+[59/34d26f] UNIFY_POST_HP2 (HP2)           | 1 of 1 ✔
+[32/c2e5cd] LV_DMC_METHYLKIT (pacbio)      | 0 of 1
+[-        ] MULTIQC_METHYLATION            -
+
+executor >  local (16)
+[63/83c50f] ENVCHECK (pacbio)              | 1 of 1 ✔
+[62/57caf7] GENOME (pacbio)                | 1 of 1 ✔
+[c4/b370d9] PB_UNTAR (pacbio)              | 1 of 1 ✔
+[62/6aa55c] PB_JASMINE (pacbio)            | 1 of 1 ✔
+[c0/b8f512] PB_PBMM2 (pacbio)              | 1 of 1 ✔
+[ae/c24b3d] LV_QC (pacbio)                 | 1 of 1 ✔
+[26/e6865b] LV_CALL_EXTRACT (per_read)     | 1 of 1 ✔
+[79/c3f689] UNIFY (all)                    | 1 of 1 ✔
+[0f/5213d2] LV_CLAIR3 (pacbio)             | 1 of 1 ✔
+[9d/6f4359] LV_PHASING (pacbio)            | 1 of 1 ✔
+[c1/356b41] LV_…CT_POST_HP1 (per_read_HP1) | 1 of 1 ✔
+[fc/444fce] LV_…CT_POST_HP2 (per_read_HP2) | 1 of 1 ✔
+[99/94c9ae] UNIFY_POST_HP1 (HP1)           | 1 of 1 ✔
+[59/34d26f] UNIFY_POST_HP2 (HP2)           | 1 of 1 ✔
+[32/c2e5cd] LV_DMC_METHYLKIT (pacbio)      | 0 of 1
+[7a/4ab36e] MULTIQC_METHYLATION (pacbio)   | 0 of 1
+
+executor >  local (16)
+[63/83c50f] ENVCHECK (pacbio)              | 1 of 1 ✔
+[62/57caf7] GENOME (pacbio)                | 1 of 1 ✔
+[c4/b370d9] PB_UNTAR (pacbio)              | 1 of 1 ✔
+[62/6aa55c] PB_JASMINE (pacbio)            | 1 of 1 ✔
+[c0/b8f512] PB_PBMM2 (pacbio)              | 1 of 1 ✔
+[ae/c24b3d] LV_QC (pacbio)                 | 1 of 1 ✔
+[26/e6865b] LV_CALL_EXTRACT (per_read)     | 1 of 1 ✔
+[79/c3f689] UNIFY (all)                    | 1 of 1 ✔
+[0f/5213d2] LV_CLAIR3 (pacbio)             | 1 of 1 ✔
+[9d/6f4359] LV_PHASING (pacbio)            | 1 of 1 ✔
+[c1/356b41] LV_…CT_POST_HP1 (per_read_HP1) | 1 of 1 ✔
+[fc/444fce] LV_…CT_POST_HP2 (per_read_HP2) | 1 of 1 ✔
+[99/94c9ae] UNIFY_POST_HP1 (HP1)           | 1 of 1 ✔
+[59/34d26f] UNIFY_POST_HP2 (HP2)           | 1 of 1 ✔
+[32/c2e5cd] LV_DMC_METHYLKIT (pacbio)      | 0 of 1
+[7a/4ab36e] MULTIQC_METHYLATION (pacbio)   | 1 of 1 ✔
+
+executor >  local (16)
+[63/83c50f] ENVCHECK (pacbio)              | 1 of 1 ✔
+[62/57caf7] GENOME (pacbio)                | 1 of 1 ✔
+[c4/b370d9] PB_UNTAR (pacbio)              | 1 of 1 ✔
+[62/6aa55c] PB_JASMINE (pacbio)            | 1 of 1 ✔
+[c0/b8f512] PB_PBMM2 (pacbio)              | 1 of 1 ✔
+[ae/c24b3d] LV_QC (pacbio)                 | 1 of 1 ✔
+[26/e6865b] LV_CALL_EXTRACT (per_read)     | 1 of 1 ✔
+[79/c3f689] UNIFY (all)                    | 1 of 1 ✔
+[0f/5213d2] LV_CLAIR3 (pacbio)             | 1 of 1 ✔
+[9d/6f4359] LV_PHASING (pacbio)            | 1 of 1 ✔
+[c1/356b41] LV_…CT_POST_HP1 (per_read_HP1) | 1 of 1 ✔
+[fc/444fce] LV_…CT_POST_HP2 (per_read_HP2) | 1 of 1 ✔
+[99/94c9ae] UNIFY_POST_HP1 (HP1)           | 1 of 1 ✔
+[59/34d26f] UNIFY_POST_HP2 (HP2)           | 1 of 1 ✔
+[32/c2e5cd] LV_DMC_METHYLKIT (pacbio)      | 1 of 1 ✔
+[7a/4ab36e] MULTIQC_METHYLATION (pacbio)   | 1 of 1 ✔
+
+executor >  local (16)
+[63/83c50f] ENVCHECK (pacbio)              | 1 of 1 ✔
+[62/57caf7] GENOME (pacbio)                | 1 of 1 ✔
+[c4/b370d9] PB_UNTAR (pacbio)              | 1 of 1 ✔
+[62/6aa55c] PB_JASMINE (pacbio)            | 1 of 1 ✔
+[c0/b8f512] PB_PBMM2 (pacbio)              | 1 of 1 ✔
+[ae/c24b3d] LV_QC (pacbio)                 | 1 of 1 ✔
+[26/e6865b] LV_CALL_EXTRACT (per_read)     | 1 of 1 ✔
+[79/c3f689] UNIFY (all)                    | 1 of 1 ✔
+[0f/5213d2] LV_CLAIR3 (pacbio)             | 1 of 1 ✔
+[9d/6f4359] LV_PHASING (pacbio)            | 1 of 1 ✔
+[c1/356b41] LV_…CT_POST_HP1 (per_read_HP1) | 1 of 1 ✔
+[fc/444fce] LV_…CT_POST_HP2 (per_read_HP2) | 1 of 1 ✔
+[99/94c9ae] UNIFY_POST_HP1 (HP1)           | 1 of 1 ✔
+[59/34d26f] UNIFY_POST_HP2 (HP2)           | 1 of 1 ✔
+[32/c2e5cd] LV_DMC_METHYLKIT (pacbio)      | 1 of 1 ✔
+[7a/4ab36e] MULTIQC_METHYLATION (pacbio)   | 1 of 1 ✔
+
