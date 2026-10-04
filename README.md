@@ -1,4 +1,4 @@
-# LongVerse_tutorial
+# LongVerse tutorial
 
 Running [LongVerse](https://github.com/LabShengLi/longverse) on long-read data from
 the command line: raw signal to allele-specific methylation in one command, for
@@ -8,23 +8,123 @@ LongVerse is a Nextflow DSL2 pipeline. It takes raw reads through basecalling to
 modified-base BAM, extracts per-read and per-site methylation, calls variants,
 phases the reads into haplotypes, and reports methylation per haplotype.
 
-## What you need
+---
 
-Nextflow, Java 17 or newer, and one container engine (Docker, Singularity or
-Apptainer). That is the whole list. The pipeline is pulled from GitHub and the
-tool images and test data are fetched on demand, so there is nothing to install
-per tool.
+## Section 1: Software Installation
 
-## Sessions
+### Prerequisite
 
-| | | |
-|---|---|---|
-| 1 | [Session1_setup.sh](script/Session1_setup.sh) | What has to exist first, and the shared image cache |
-| 2 | [Session2_ont_one_command.sh](script/Session2_ont_one_command.sh) | ONT: POD5 to per-haplotype methylation |
-| 3 | [Session3_pacbio_one_command.sh](script/Session3_pacbio_one_command.sh) | PacBio HiFi: kinetics to per-haplotype methylation |
+You must have access to [CARC OnDemand](https://ondemand.carc.usc.edu/pun/sys/dashboard/)
+and be able to start a Cluster Shell Access session.
 
-Run times and the full console output of a real run are in
-[Session_jobinfo.md](script/Session_jobinfo.md).
+![On_Demand_Shell](pic/ondemand_shell_app.png)
+
+### Enter into interactive mode
+
+**Note**: if you are already in compute node mode, you don't need to do this step.
+
+This command starts an interactive session on the cluster with multiple CPU cores
+and memory. More information in the
+[Slurm Job documents](https://www.carc.usc.edu/user-guides/hpc-systems/using-our-hpc-systems/slurm-templates.html)
+for CARC HPC.
+
+```
+## srun --pty -p main --time=02:00:00 -n 8 --mem 32GB bash
+salloc -p debug -c 8 --mem 32GB --time 2:00:00
+```
+
+**Note: You must enter the `compute` (`interactive`) mode to load and run most
+software, not the `login` mode.**
+
+---
+
+Create and enter a directory for this session's work:
+
+```bash
+wdir="/scratch1/$USER/longverse_tutorial"
+mkdir -p $wdir
+cd $wdir
+pwd
+```
+
+### What LongVerse needs
+
+Nextflow, Java 17 or newer, and one container engine. That is the whole list.
+
+This is the part that differs most from calling the tools by hand. A hand-written
+workflow has to pull each image, download each basecalling model and stage each
+input before it can start. LongVerse resolves all of that from the run command, so
+there is nothing to install per tool and nothing to keep in step with the pipeline
+version.
+
+#### Singularity container
+
+[**Singularity**](https://docs.sylabs.io/guides/3.5/user-guide/introduction.html)
+is a container technology designed to run applications in a portable and
+reproducible way, especially in high-performance computing environments. Unlike
+Docker, which often requires administrator (root) privileges, Singularity is built
+to work securely on shared systems where users do not have root access.
+
+Singularity packages all the software, libraries and dependencies of a workflow
+into a single container file, so the analysis runs the same way on any system
+regardless of the underlying operating system or installed software.
+
+```bash
+module load apptainer
+singularity --version
+```
+
+#### Install Java and Nextflow
+
+Nextflow requires Java 17 or higher.
+
+```bash
+module spider openjdk
+module load openjdk/21.0.0_35
+```
+
+[Nextflow](https://www.nextflow.io/docs/latest/install.html#install-nextflow) can
+be installed with a single command:
+
+```bash
+curl -s https://get.nextflow.io | bash
+./nextflow -v
+```
+
+Or by module:
+
+```bash
+module purge
+module load ver/2506 gcc/14.3.0 openjdk/21.0.7_6 nextflow/25.04.8 apptainer
+```
+
+On this cluster all three are already installed, so one PATH line is enough:
+
+```bash
+# [CARC]
+export PATH=/apps/generic/apptainer/1.5.3/bin:/apps/generic/openjdk/25.0.2/bin:/apps/generic/nextflow/25.10.4/bin:$PATH
+```
+
+#### The container image cache
+
+Images total several GB, so put the cache on a filesystem with room, not in a
+quota-limited home directory.
+
+```bash
+# [CARC] A shared cache already holds every image this tutorial needs, world
+# readable, so nothing is downloaded on this cluster.
+export NXF_SINGULARITY_CACHEDIR=/scratch1/yliu8962/longverse_cache
+```
+
+Elsewhere, point it at a directory of your own and let Nextflow fill it:
+
+```bash
+export NXF_SINGULARITY_CACHEDIR=$HOME/longverse_cache
+```
+
+Full script: [Session1_setup.sh](script/Session1_setup.sh)
+
+---
 
 ## The data
 
@@ -37,10 +137,18 @@ GNAS is imprinted, which is the point: the two haplotypes genuinely differ, so a
 run that phases correctly produces two clearly different methylation profiles
 rather than two copies of the same thing.
 
-Nothing has to be downloaded first. The commands reference the Zenodo URLs and
-Nextflow stages them.
+Nothing has to be downloaded first. The commands below reference the Zenodo URLs
+and Nextflow stages them.
 
-## ONT, one command
+**The contig is not called `chr20`.** The reference is a window and its single
+contig is named `chr20:60574425-60694782`. That string is the whole contig name,
+not a region on chr20, and positions inside it start at 1. Passing the bare
+chromosome name to `--chrSet` does not fail: it produces an empty result and
+exits 0.
+
+---
+
+## Section 2: ONT, raw signal to per-haplotype methylation
 
 ```bash
 Z=https://zenodo.org/records/23090404/files
@@ -56,11 +164,26 @@ nextflow run LabShengLi/longverse -latest -profile singularity --dsname ont \
 ```
 
 Fifteen steps: Dorado basecalls the POD5 and calls 5mC, the methylation is
-extracted per read and unified per site, Clair3 calls variants, whatshap splits
-the reads into HP1 and HP2, and the methylation is re-extracted for each
-haplotype. About three minutes on four CPU cores.
+extracted per read and unified per site, Clair3 calls variants, whatshap splits the
+reads into HP1 and HP2, and the methylation is re-extracted for each haplotype.
+**2 min 57 s** on four CPU cores, no GPU.
 
-## PacBio HiFi, one command
+Script: [Session2_ont_one_command.sh](script/Session2_ont_one_command.sh) ·
+Console output: [Session2_ont.log](script/Session2_ont.log)
+
+### IGV visualization of methylation states in BAM file
+
+Open OnDemand Traveller Desktop, start IGV Viewer, and load the modified-base BAM
+from `ont/ont-*/`. The MM/ML tags are already there, so IGV can colour the reads by
+base modification directly.
+
+![IGV Snapshot of KCNQ1](pic/igv_snapshot_KCNQ1.png)
+
+![IGV Snapshot of SNRPN](pic/igv_snapshot_SNRPN.png)
+
+---
+
+## Section 3: PacBio HiFi, kinetics to per-haplotype methylation
 
 ```bash
 Z=https://zenodo.org/records/23090404/files
@@ -74,9 +197,22 @@ nextflow run LabShengLi/longverse -latest -profile singularity --dsname pacbio \
 ```
 
 The same sixteen steps with one difference at the front: **PacBio has no
-basecalling step of its own**. A HiFi BAM already carries the polymerase kinetics,
+basecalling step of its own**. A HiFi BAM already carries the polymerase kinetics
 and Jasmine calls 5mC from them. Everything after that, alignment with pbmm2,
-extraction, Clair3, phasing, is the shared stack. About ninety seconds.
+extraction, Clair3, phasing, is the shared stack. **1 min 03 s**.
+
+Script: [Session3_pacbio_one_command.sh](script/Session3_pacbio_one_command.sh) ·
+Console output: [Session3_pacbio.log](script/Session3_pacbio.log)
+
+### IGV visualization of haplotype phasing
+
+Load the two haplotype BAMs from `pacbio/pacbio-vcall/pacbio_phased_bam/` as
+separate tracks. At an imprinted locus the two tracks separate cleanly, which is
+what a correct phasing looks like.
+
+![IGV Snapshot of MethPhase](pic/igv_snapshot_methphase.png)
+
+---
 
 ## Results
 
@@ -92,37 +228,21 @@ ont/
 └── ont_DMC/                               differentially methylated cytosines, HP1 vs HP2
 ```
 
-The haplotype BAMs carry MM/ML tags, so they can be loaded into IGV and coloured
-by base modification directly.
+Run times, the step lists and how to tell a run actually worked are in
+[Session_jobinfo.md](script/Session_jobinfo.md).
 
-## Three things that will bite you
-
-**The contig is not called `chr20`.** The reference is a window, and its single
-contig is named `chr20:60574425-60694782`. That string is the whole contig name,
-not a region on chr20, and positions inside it start at 1, not at 60,574,425.
-Passing the bare chromosome name to `--chrSet` does not fail: it produces an empty
-result and exits 0.
-
-**The exit code is not the answer.** The pipeline sets `errorStrategy = 'ignore'`
-so that one failed step does not abandon the rest of the run. Nextflow then
-returns 0 whether or not something failed, and reports it only as `Ignored : N` in
-its own summary. Read the summary, not `$?`.
-
-**Everything the container touches has to be bound.** `--containerOptions "-B $PWD"`
-is not decoration. If `TMPDIR` points somewhere the container engine does not
-mount, several steps fail the moment they start, because they run GNU parallel and
-it creates a temp file before doing anything else. Combined with the point above,
-that produces a run which exits 0 having done half the work.
+---
 
 ## Adapting this elsewhere
 
-Lines marked `[CARC]` in the scripts are specific to the USC CARC cluster: where
-Apptainer, Java and Nextflow live, and where the shared image cache is. Replace
-those three lines and the rest works anywhere. With Docker, use `-profile docker`
-and drop `--containerOptions`, since Docker mounts what Nextflow uses.
+Lines marked `[CARC]` are specific to the USC CARC cluster: where Apptainer, Java
+and Nextflow live, and where the shared image cache is. Replace those and the rest
+works anywhere. With Docker, use `-profile docker` and drop `--containerOptions`,
+since Docker mounts what Nextflow uses.
 
 ## Links
 
 * Pipeline: [LabShengLi/longverse](https://github.com/LabShengLi/longverse)
 * Data: [10.5281/zenodo.20116126](https://doi.org/10.5281/zenodo.20116126)
 * Figures from the paper: [LabShengLi/longverse-figures](https://github.com/LabShengLi/longverse-figures)
+* Course tutorial this is modelled on: [BIOC599_LongRead](https://labshengli.github.io/BIOC599_LongRead/)
