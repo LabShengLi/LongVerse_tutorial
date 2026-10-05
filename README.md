@@ -346,25 +346,28 @@ the run recorded here are in [`data/`](data/):
 
 ```
 data/
-├── ont_chr20_GNAS.all.bam          89 reads, all of them, before phasing
-├── ont_chr20_GNAS.HP1.bam          34
-├── ont_chr20_GNAS.HP2.bam          31
-├── pacbio_chr20_GNAS.all.bam      103
-├── pacbio_chr20_GNAS.HP1.bam       38
-└── pacbio_chr20_GNAS.HP2.bam       46
+├── chm13v2.0.chr20_GNAS_readspan.fa   the reference, load this into IGV first
+├── ont_chr20_GNAS.all.bam             89 reads, all of them, before phasing
+├── ont_chr20_GNAS.HP1.bam             34
+├── ont_chr20_GNAS.HP2.bam             31
+├── pacbio_chr20_GNAS.all.bam         103
+├── pacbio_chr20_GNAS.HP1.bam          38
+└── pacbio_chr20_GNAS.HP2.bam          46
 ```
 
-Each has its `.bai`, all six are on the same contig, and the reference they need
-is `chm13v2.0.chr20_GNAS_readspan.fa` from the `chr20_GNAS_ref` archive on Zenodo.
-The inputs are not kept here, because they are already published and the commands
-above fetch them.
+Each file has its index beside it and all six BAMs are on the one contig, so this
+directory opens in IGV on its own. The inputs are not kept here: they are already
+published and the commands above fetch them.
 
 HP1 and HP2 do not add up to `.all`: reads that cover no heterozygous site cannot
 be assigned to a haplotype.
 
 ### IGV visualization of methylation states in BAM file
 
-Open OnDemand Traveller Desktop, start IGV Viewer, and load either your own run's
+Open OnDemand Traveller Desktop and start IGV Viewer. Load the reference with
+`Genomes > Load Genome from File`, taking
+[`data/chm13v2.0.chr20_GNAS_readspan.fa`](data/): a BAM opened against a different
+assembly shows an empty view rather than an error. Then load either your own run's
 
 ```
 ont/ont-methylation-callings/Raw_Results-ont/ont.dorado_call/ont.dorado_call.bam
