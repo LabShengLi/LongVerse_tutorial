@@ -28,13 +28,20 @@ and memory. More information in the
 [Slurm Job documents](https://www.carc.usc.edu/user-guides/hpc-systems/using-our-hpc-systems/slurm-templates.html)
 for CARC HPC.
 
-```
-## srun --pty -p main --time=02:00:00 -n 8 --mem 32GB bash
-salloc -p debug -c 8 --mem 32GB --time 2:00:00
+```bash
+salloc --account=<your_account> -p main,largemem,oneweek -N 1 -n 8 --mem 32G --time 2:00:00
+
+# The shell salloc gives you is pinned to a single CPU. Take back the cores you
+# were allocated, once; everything you start afterwards inherits it.
+taskset -cp $(cat /sys/fs/cgroup/cpuset/cpuset.cpus) $$
+nproc
 ```
 
 **Note: You must enter the `compute` (`interactive`) mode to load and run most
 software, not the `login` mode.**
+
+Pick a partition whose limit fits your `--time`. `debug` is capped at one hour, so
+asking it for two is rejected before anything starts.
 
 ---
 
@@ -192,9 +199,22 @@ Get a compute node first, unless you are already on one. Do not run this on a
 login node, the basecalling step is real computation.
 
 ```bash
-salloc -p debug -c 8 --mem 32GB --time 2:00:00
-srun --pty bash
+salloc --account=<your_account> -p main,largemem,oneweek -N 1 -n 8 --mem 32G --time 2:00:00
+
+# salloc drops you straight onto the node here, but the shell it gives you is
+# pinned to a SINGLE CPU whatever you asked for. Take back the cores you were
+# allocated; child processes inherit this, so run it once and forget it.
+taskset -cp $(cat /sys/fs/cgroup/cpuset/cpuset.cpus) $$
+nproc    # should now print 8, not 1
 ```
+
+That `taskset` line is not optional and it is not a trick. Measured on this
+cluster: the interactive shell comes up with `nproc` 1 and an affinity mask of one
+core, while the cgroup itself allows all of them, so the restriction is Slurm's
+interactive step and nothing else. Eight parallel jobs took 1389 ms pinned and
+288 ms after, and a full ONT run took 392 s pinned against 133 s with the cores it
+was given. `srun -c 8` from inside the allocation does not help; it blocks,
+because the interactive step already holds the CPUs.
 
 Then one block, start to finish:
 
@@ -261,9 +281,22 @@ Get a compute node first, unless you are already on one. Do not run this on a
 login node, the basecalling step is real computation.
 
 ```bash
-salloc -p debug -c 8 --mem 32GB --time 2:00:00
-srun --pty bash
+salloc --account=<your_account> -p main,largemem,oneweek -N 1 -n 8 --mem 32G --time 2:00:00
+
+# salloc drops you straight onto the node here, but the shell it gives you is
+# pinned to a SINGLE CPU whatever you asked for. Take back the cores you were
+# allocated; child processes inherit this, so run it once and forget it.
+taskset -cp $(cat /sys/fs/cgroup/cpuset/cpuset.cpus) $$
+nproc    # should now print 8, not 1
 ```
+
+That `taskset` line is not optional and it is not a trick. Measured on this
+cluster: the interactive shell comes up with `nproc` 1 and an affinity mask of one
+core, while the cgroup itself allows all of them, so the restriction is Slurm's
+interactive step and nothing else. Eight parallel jobs took 1389 ms pinned and
+288 ms after, and a full ONT run took 392 s pinned against 133 s with the cores it
+was given. `srun -c 8` from inside the allocation does not help; it blocks,
+because the interactive step already holds the CPUs.
 
 Then one block, start to finish:
 
@@ -303,13 +336,15 @@ Console output: [Session3_pacbio.log](script/Session3_pacbio.log)
 ```
 ont/
 ├── ont-methylation-callings/
+│   ├── Raw_Results-ont/ont.dorado_call/   modBAM + bai, straight out of Dorado
 │   ├── Read_Level-ont_{all,HP1,HP2}/      per-read CpG calls
 │   └── Site_Level-ont_{all,HP1,HP2}/      per-site methylation, NANOME / methylKit / DSS formats
 ├── ont-vcall/
 │   ├── ont_clair3_out/                    variants
 │   └── ont_phased_bam/ont_{HP1,HP2}/      the haplotype BAMs
 ├── ont-LVQC/                              read length, quality, coverage
-└── ont_DMC/                               differentially methylated cytosines, HP1 vs HP2
+├── ont_DMC/                               differentially methylated cytosines, HP1 vs HP2
+└── ont-run-log/                           per-step run logs
 ```
 
 Run times, the step lists and how to tell a run actually worked are in
@@ -317,9 +352,14 @@ Run times, the step lists and how to tell a run actually worked are in
 
 ### IGV visualization of methylation states in BAM file
 
-Open OnDemand Traveller Desktop, start IGV Viewer, and load the modified-base BAM
-from `ont/ont-*/`. The MM/ML tags are already there, so IGV can colour the reads by
-base modification directly.
+Open OnDemand Traveller Desktop, start IGV Viewer, and load
+
+```
+ont/ont-methylation-callings/Raw_Results-ont/ont.dorado_call/ont.dorado_call.bam
+```
+
+That is every read, straight out of Dorado, with the MM/ML tags on it, so IGV can
+colour by base modification directly.
 
 ![IGV Snapshot of KCNQ1](pic/igv_snapshot_KCNQ1.png)
 
