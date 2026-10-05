@@ -18,7 +18,8 @@
       "showCoverage": false,
       "showMismatches": false,
       "showInsertions": false,
-      "height": 240
+      "height": 240,
+      "maxHeight": 240
     },
     {
       "name": "PacBio HP1",
@@ -31,7 +32,8 @@
       "showCoverage": false,
       "showMismatches": false,
       "showInsertions": false,
-      "height": 180
+      "height": 180,
+      "maxHeight": 180
     },
     {
       "name": "PacBio HP2",
@@ -44,7 +46,8 @@
       "showCoverage": false,
       "showMismatches": false,
       "showInsertions": false,
-      "height": 180
+      "height": 180,
+      "maxHeight": 180
     }
   ]
 }

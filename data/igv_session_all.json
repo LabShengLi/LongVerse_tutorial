@@ -18,7 +18,8 @@
       "showCoverage": false,
       "showMismatches": false,
       "showInsertions": false,
-      "height": 136
+      "height": 136,
+      "maxHeight": 136
     },
     {
       "name": "ONT HP1",
@@ -31,7 +32,8 @@
       "showCoverage": false,
       "showMismatches": false,
       "showInsertions": false,
-      "height": 102
+      "height": 102,
+      "maxHeight": 102
     },
     {
       "name": "ONT HP2",
@@ -44,7 +46,8 @@
       "showCoverage": false,
       "showMismatches": false,
       "showInsertions": false,
-      "height": 102
+      "height": 102,
+      "maxHeight": 102
     },
     {
       "name": " ",
@@ -64,7 +67,8 @@
       "showCoverage": false,
       "showMismatches": false,
       "showInsertions": false,
-      "height": 136
+      "height": 136,
+      "maxHeight": 136
     },
     {
       "name": "PacBio HP1",
@@ -77,7 +81,8 @@
       "showCoverage": false,
       "showMismatches": false,
       "showInsertions": false,
-      "height": 102
+      "height": 102,
+      "maxHeight": 102
     },
     {
       "name": "PacBio HP2",
@@ -90,7 +95,8 @@
       "showCoverage": false,
       "showMismatches": false,
       "showInsertions": false,
-      "height": 102
+      "height": 102,
+      "maxHeight": 102
     }
   ]
 }
