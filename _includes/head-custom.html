@@ -121,3 +121,225 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 });
 </script>
+
+<!-- A collapsible table of contents in a left sidebar, built at load time from
+     the <h2>/<h3> headings the page already has. Kramdown gives every heading an
+     id, so nothing in README.md has to change. -->
+<style>
+  :root { --toc-w: 17rem; }
+
+  #toc {
+    position: fixed; top: 0; left: 0; bottom: 0; width: var(--toc-w);
+    z-index: 50; overflow-y: auto; -webkit-overflow-scrolling: touch;
+    background: #f6f8fa; border-right: 1px solid #e1e4e8;
+    font-size: 14px; line-height: 1.4;
+    transform: translateX(-100%); transition: transform .2s ease;
+  }
+  body.toc-open #toc { transform: none; }
+
+  .toc-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: .85rem 1rem; border-bottom: 1px solid #e1e4e8;
+    font-weight: 600; color: #24292e;
+    position: sticky; top: 0; background: #f6f8fa;
+  }
+  .toc-close {
+    border: 0; background: none; cursor: pointer;
+    font-size: 20px; line-height: 1; color: #586069; padding: 0 .2rem;
+  }
+  .toc-close:hover { color: #24292e; }
+
+  #toc ul { list-style: none; margin: 0; padding: 0; }
+  #toc li { margin: 0; }
+  #toc a {
+    display: block; padding: .3rem .6rem .3rem 0;
+    color: #24292e; text-decoration: none;
+    overflow-wrap: break-word;
+  }
+  #toc a:hover { color: #1e6bb8; text-decoration: underline; }
+  #toc .toc-sub a { padding-left: 2.1rem; color: #586069; font-size: 13px; }
+  #toc a.toc-active { color: #1e6bb8; font-weight: 600; }
+
+  .toc-row { display: flex; align-items: flex-start; }
+  .toc-row > a { flex: 1; padding-left: .2rem; }
+  .toc-caret {
+    width: 1.5rem; flex: none; border: 0; background: none; cursor: pointer;
+    color: #586069; font-size: 11px; line-height: 1; padding: .55rem 0 0 .55rem;
+    transition: transform .15s ease; transform-origin: 45% 45%;
+  }
+  .toc-caret[aria-expanded="false"] { transform: rotate(-90deg); }
+  .toc-row.toc-nokids > a { padding-left: 1.7rem; }
+  .toc-sub[hidden] { display: none; }
+  #toc > ul { padding: .5rem 0 2rem; }
+
+  /* The floating opener, shown only while the sidebar is away. */
+  .toc-toggle {
+    position: fixed; top: .75rem; left: .75rem; z-index: 60;
+    padding: .35rem .7rem; font: inherit; font-size: 13px;
+    color: #24292e; background: rgba(255,255,255,.95);
+    border: 1px solid #d1d5da; border-radius: 4px; cursor: pointer;
+  }
+  .toc-toggle:hover { border-color: #959da5; }
+  body.toc-open .toc-toggle { display: none; }
+
+  .toc-backdrop {
+    position: fixed; inset: 0; z-index: 40; background: rgba(0,0,0,.35);
+    display: none;
+  }
+
+  /* Wide screens dock the sidebar beside the page; narrow ones float it over
+     the page, because the theme's content column already fills them. */
+  @media (min-width: 1200px) {
+    body.toc-open { padding-left: var(--toc-w); }
+  }
+  @media (max-width: 1199px) {
+    body.toc-open .toc-backdrop { display: block; }
+  }
+  @media print {
+    #toc, .toc-toggle, .toc-backdrop { display: none; }
+    body.toc-open { padding-left: 0; }
+  }
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var main = document.querySelector('main') || document.querySelector('.main-content');
+  if (!main) return;
+  var heads = main.querySelectorAll('h2, h3');
+  if (heads.length < 3) return;
+
+  var slug = function (text) {
+    return text.toLowerCase().replace(/[^\w\s-]/g, '').trim().replace(/\s+/g, '-');
+  };
+
+  var nav = document.createElement('nav');
+  nav.id = 'toc';
+  nav.setAttribute('aria-label', 'Table of contents');
+  nav.innerHTML = '<div class="toc-head"><span>Contents</span>' +
+    '<button class="toc-close" type="button" aria-label="Hide the contents">&times;</button></div>';
+  var root = document.createElement('ul');
+  nav.appendChild(root);
+
+  var links = [], targets = [], sub = null, used = {};
+
+  heads.forEach(function (h) {
+    if (!h.id) {
+      var base = slug(h.textContent) || 'section';
+      var id = base, n = 1;
+      while (used[id] || document.getElementById(id)) { id = base + '-' + (++n); }
+      h.id = id;
+    }
+    used[h.id] = true;
+
+    var a = document.createElement('a');
+    a.href = '#' + h.id;
+    a.textContent = h.textContent;
+    links.push(a);
+    targets.push(h);
+
+    if (h.tagName === 'H2') {
+      var li = document.createElement('li');
+      li.className = 'toc-group';
+      var row = document.createElement('div');
+      row.className = 'toc-row toc-nokids';
+      var caret = document.createElement('button');
+      caret.className = 'toc-caret';
+      caret.type = 'button';
+      caret.textContent = '\u25BC';
+      caret.setAttribute('aria-expanded', 'true');
+      caret.setAttribute('aria-label', 'Collapse this section');
+      caret.hidden = true;
+      row.appendChild(caret);
+      row.appendChild(a);
+      li.appendChild(row);
+      // Bound per section: `sub` below is the running cursor for the next h3s
+      // and is reassigned on every h2, so the handler must close over its own.
+      var mySub = document.createElement('ul');
+      mySub.className = 'toc-sub';
+      li.appendChild(mySub);
+      root.appendChild(li);
+      sub = mySub;
+
+      caret.addEventListener('click', function () {
+        var open = caret.getAttribute('aria-expanded') === 'true';
+        caret.setAttribute('aria-expanded', open ? 'false' : 'true');
+        caret.setAttribute('aria-label', (open ? 'Expand' : 'Collapse') + ' this section');
+        mySub.hidden = open;
+      });
+    } else if (sub) {
+      // The first child is what turns the caret on: an h2 with no h3 under it
+      // gets no control to click.
+      var rowEl = sub.previousElementSibling;
+      rowEl.querySelector('.toc-caret').hidden = false;
+      rowEl.classList.remove('toc-nokids');
+      var sli = document.createElement('li');
+      sli.appendChild(a);
+      sub.appendChild(sli);
+    }
+  });
+
+  var toggle = document.createElement('button');
+  toggle.className = 'toc-toggle';
+  toggle.type = 'button';
+  toggle.textContent = '\u2630 Contents';
+  var backdrop = document.createElement('div');
+  backdrop.className = 'toc-backdrop';
+
+  document.body.appendChild(nav);
+  document.body.appendChild(backdrop);
+  document.body.appendChild(toggle);
+
+  var KEY = 'longverse-toc-open';
+  function setOpen(open, remember) {
+    document.body.classList.toggle('toc-open', open);
+    if (remember) { try { localStorage.setItem(KEY, open ? '1' : '0'); } catch (e) {} }
+  }
+  var stored = null;
+  try { stored = localStorage.getItem(KEY); } catch (e) {}
+  // Open by default where it docks beside the text; closed where it would cover it.
+  setOpen(stored === null ? window.matchMedia('(min-width: 1200px)').matches : stored === '1', false);
+
+  toggle.addEventListener('click', function () { setOpen(true, true); });
+  nav.querySelector('.toc-close').addEventListener('click', function () { setOpen(false, true); });
+  backdrop.addEventListener('click', function () { setOpen(false, true); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && document.body.classList.contains('toc-open') &&
+        !window.matchMedia('(min-width: 1200px)').matches) { setOpen(false, true); }
+  });
+  nav.addEventListener('click', function (e) {
+    if (e.target.tagName === 'A' && !window.matchMedia('(min-width: 1200px)').matches) {
+      setOpen(false, false);
+    }
+  });
+
+  // Mark the section being read, and keep it in view inside a long sidebar.
+  var current = null;
+  function spy() {
+    var i, found = 0;
+    for (i = 0; i < targets.length; i++) {
+      if (targets[i].getBoundingClientRect().top <= 120) { found = i; } else { break; }
+    }
+    if (found === current) return;
+    if (current !== null) links[current].classList.remove('toc-active');
+    current = found;
+    links[current].classList.add('toc-active');
+    // Only a sub-entry reopens its group; landing on the h2 itself leaves a
+    // group the reader deliberately collapsed alone.
+    var inSub = links[current].parentNode.parentNode.classList.contains('toc-sub');
+    var li = inSub ? links[current].closest('.toc-group') : null;
+    var caret = li && li.querySelector('.toc-caret');
+    if (caret && caret.getAttribute('aria-expanded') === 'false') { caret.click(); }
+    // Nudged into view only while the sidebar is on screen; scrolling a panel
+    // that is translated off-canvas drags the page sideways instead.
+    if (inSub && document.body.classList.contains('toc-open')) {
+      links[current].scrollIntoView({block: 'nearest'});
+    }
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function () {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () { spy(); ticking = false; });
+  }, {passive: true});
+  spy();
+});
+</script>
