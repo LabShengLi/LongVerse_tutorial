@@ -383,4 +383,3 @@ since Docker mounts what Nextflow uses.
 * Pipeline: [LabShengLi/longverse](https://github.com/LabShengLi/longverse)
 * Data: [10.5281/zenodo.20116126](https://doi.org/10.5281/zenodo.20116126)
 * Figures from the paper: [LabShengLi/longverse-figures](https://github.com/LabShengLi/longverse-figures)
-* Course tutorial this is modelled on: [BIOC599_LongRead](https://labshengli.github.io/BIOC599_LongRead/)
