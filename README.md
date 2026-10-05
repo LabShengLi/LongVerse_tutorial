@@ -409,12 +409,12 @@ Each link opens [igv.org/app](https://igv.org/app/) with the reference, the BAMs
 
 Each view opens on chr20:60,574,425-60,694,782 at 50,049-51,355, inside the GNAS
 ICR, with coverage, mismatches and insertions turned off so nothing competes with
-the modification colours. The three tracks are sized to a screen rather than to
-the data: every read spans this window, so drawing all of them at once would take
-776 px for ONT and 1042 px for PacBio in the all-reads track alone. Both platforms
-get the same heights, which is what makes them comparable, and each track scrolls
-to the rest of its reads. In the six-track view a blank row separates ONT from
-PacBio.
+the modification colours. Track heights are set to the page, not to the data:
+600 px for three tracks and 700 for six, so the last one is on screen without
+scrolling. Every read spans this window, so drawing them all would want 776 px for
+ONT and 1042 for PacBio in the all-reads track alone; each track scrolls to the
+rest instead. Both platforms use the same heights, which is what makes them
+comparable, and a blank row separates them in the six-track view.
 
 The files are served from this repository, which answers byte-range requests and
 allows cross-origin reads, so IGV fetches only the part of each BAM it draws.
