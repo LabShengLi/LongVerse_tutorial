@@ -381,4 +381,3 @@ since Docker mounts what Nextflow uses.
 ## Links
 
 * Pipeline: [LabShengLi/longverse](https://github.com/LabShengLi/longverse)
-* Data: [10.5281/zenodo.20116126](https://doi.org/10.5281/zenodo.20116126)
