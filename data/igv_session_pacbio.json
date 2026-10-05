@@ -1,0 +1,20 @@
+{
+  "reference": {
+    "id": "chr20_GNAS_window",
+    "name": "CHM13v2.0 chr20 GNAS window",
+    "fastaURL": "https://labshengli.github.io/LongVerse_tutorial/data/chm13v2.0.chr20_GNAS_readspan.fa",
+    "indexURL": "https://labshengli.github.io/LongVerse_tutorial/data/chm13v2.0.chr20_GNAS_readspan.fa.fai"
+  },
+  "locus": "chr20:60574425-60694782\t44699\t55273",
+  "tracks": [
+    {
+      "name": "PacBio all reads",
+      "type": "alignment",
+      "format": "bam",
+      "url": "https://labshengli.github.io/LongVerse_tutorial/data/pacbio_chr20_GNAS.all.bam",
+      "indexURL": "https://labshengli.github.io/LongVerse_tutorial/data/pacbio_chr20_GNAS.all.bam.bai",
+      "colorBy": "basemod2:m",
+      "height": 300
+    }
+  ]
+}
