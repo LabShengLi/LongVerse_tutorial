@@ -1,0 +1,69 @@
+<!-- A copy button on every code block. jekyll-theme-cayman includes this file
+     from its default layout, so nothing else has to be overridden. -->
+<style>
+  .highlight, div.highlighter-rouge, pre.highlight, main pre { position: relative; }
+  .copy-btn {
+    position: absolute; top: 6px; right: 6px;
+    padding: 3px 9px; font-size: 12px; line-height: 1.6;
+    font-family: inherit; color: #444;
+    background: rgba(255,255,255,.92); border: 1px solid #ccc; border-radius: 4px;
+    cursor: pointer; opacity: 0; transition: opacity .15s;
+  }
+  /* Keep it out of the way until the reader looks at the block, but never hide
+     it on touch screens, where there is no hover to reveal it with. */
+  .copy-wrap:hover .copy-btn, .copy-btn:focus { opacity: 1; }
+  @media (hover: none) { .copy-btn { opacity: 1; } }
+  .copy-btn:hover { background: #fff; border-color: #999; }
+  .copy-btn.done { color: #157f3b; border-color: #157f3b; }
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('main pre').forEach(function (pre) {
+    // Wrap, rather than positioning against <pre> itself: the theme gives <pre>
+    // its own overflow, and a button inside a scrolling box scrolls away with
+    // the code.
+    var wrap = document.createElement('div');
+    wrap.className = 'copy-wrap';
+    wrap.style.position = 'relative';
+    pre.parentNode.insertBefore(wrap, pre);
+    wrap.appendChild(pre);
+
+    var btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.type = 'button';
+    btn.textContent = 'Copy';
+    btn.setAttribute('aria-label', 'Copy this code block');
+    wrap.appendChild(btn);
+
+    btn.addEventListener('click', function () {
+      var text = pre.innerText;
+      var done = function () {
+        btn.textContent = 'Copied';
+        btn.classList.add('done');
+        setTimeout(function () {
+          btn.textContent = 'Copy';
+          btn.classList.remove('done');
+        }, 1500);
+      };
+      // navigator.clipboard needs a secure context. Pages is HTTPS, but a local
+      // preview over file:// or http:// is not, so fall back rather than fail
+      // silently.
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(done, fallback);
+      } else {
+        fallback();
+      }
+      function fallback() {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); done(); } catch (e) { btn.textContent = 'Press Ctrl+C'; }
+        document.body.removeChild(ta);
+      }
+    });
+  });
+});
+</script>
