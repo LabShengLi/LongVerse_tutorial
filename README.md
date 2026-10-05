@@ -419,11 +419,21 @@ comparable, and a blank row separates them in the six-track view.
 The files are served from this repository, which answers byte-range requests and
 allows cross-origin reads, so IGV fetches only the part of each BAM it draws.
 
-And here is the ONT one running in this page, no click needed. It is the real
-IGV: drag to pan, scroll to zoom, right-click a track for the same menu as the
-desktop application.
+All three also run in this page, no click needed. These are the real thing: drag
+to pan, scroll to zoom, right-click a track for the same menu as the desktop
+application. Each one starts loading when you reach it, not before.
+
+**ONT** - all reads, HP1, HP2
 
 <div class="igv-embed" data-igv-session="data/igv_session_ont.json"></div>
+
+**PacBio** - all reads, HP1, HP2
+
+<div class="igv-embed" data-igv-session="data/igv_session_pacbio.json"></div>
+
+**Both platforms**, ONT above, PacBio below
+
+<div class="igv-embed" data-igv-session="data/igv_session_all.json"></div>
 
 ---
 
