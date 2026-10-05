@@ -348,8 +348,14 @@ ont/ont-methylation-callings/Raw_Results-ont/ont.dorado_call/ont.dorado_call.bam
 ```
 
 That is every read, straight out of Dorado, with the MM/ML tags on it. To see the
-methylation, right-click the alignment track and choose
-`Color alignments by > base modification 2-color (5mC)`.
+methylation:
+
+1. Right-click anywhere on the reads, not on the track name at the left.
+2. Hover `Color alignments by`.
+3. Choose `base modification 2-color (5mC)`.
+
+The submenu offers 5mC and 5hmC separately because the methylation model here is
+`5mCG_5hmCG`, so every read carries both a `C+m` and a `C+h` tag. Take 5mC.
 
 ![IGV Snapshot of KCNQ1](pic/igv_snapshot_KCNQ1.png)
 
