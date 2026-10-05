@@ -67,3 +67,57 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 });
 </script>
+
+<!-- An embedded igv.js browser for any <div data-igv-session="...">. The library
+     is ~1 MB and each view reads from the BAMs, so nothing loads until the div is
+     actually scrolled into sight. -->
+<style>
+  .igv-embed { border: 1px solid #ddd; border-radius: 4px; margin: 1em 0; min-height: 120px; }
+  .igv-embed-msg { padding: 2em 1em; text-align: center; color: #666; font-size: 14px; }
+</style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var divs = document.querySelectorAll('[data-igv-session]');
+  if (!divs.length) return;
+
+  var libLoading = null;
+  function loadIGV() {
+    if (libLoading) return libLoading;
+    libLoading = new Promise(function (ok, fail) {
+      var s = document.createElement('script');
+      s.src = 'https://cdn.jsdelivr.net/npm/igv@3.8.9/dist/igv.min.js';
+      s.onload = ok; s.onerror = fail;
+      document.head.appendChild(s);
+    });
+    return libLoading;
+  }
+
+  function start(div) {
+    div.innerHTML = '<div class="igv-embed-msg">Loading IGV and reading the BAM index...</div>';
+    loadIGV()
+      .then(function () { return fetch(div.dataset.igvSession); })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(function (cfg) {
+        div.innerHTML = '';
+        return igv.createBrowser(div, cfg);
+      })
+      .catch(function (e) {
+        // Say so rather than leave an empty box: the usual causes are a blocked
+        // CDN or a browser that will not make cross-origin range requests.
+        div.innerHTML = '<div class="igv-embed-msg">IGV could not load here (' + e +
+          '). The links above open the same view on igv.org.</div>';
+      });
+  }
+
+  if ('IntersectionObserver' in window) {
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { obs.unobserve(en.target); start(en.target); }
+      });
+    }, {rootMargin: '200px'});
+    divs.forEach(function (d) { obs.observe(d); });
+  } else {
+    divs.forEach(start);
+  }
+});
+</script>
