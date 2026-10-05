@@ -29,13 +29,12 @@ and memory. More information in the
 for CARC HPC.
 
 ```bash
-salloc -p main,largemem,oneweek -N 1 -n 8 --mem 32G --time 2:00:00
-
-# The shell salloc gives you is pinned to a single CPU. Take back the cores you
-# were allocated, once; everything you start afterwards inherits it.
-taskset -cp $(cat /sys/fs/cgroup/cpuset/cpuset.cpus) $$
-nproc
+salloc -p main,largemem,oneweek -N 1 -c 8 --mem 32G --time 2:00:00
+nproc    # 8
 ```
+
+`-c 8` is one task with eight cores; `-n 8` is eight tasks with one core each, and
+an interactive shell on the second of those sees a single core.
 
 **Note: You must enter the `compute` (`interactive`) mode to load and run most
 software, not the `login` mode.**
@@ -199,22 +198,17 @@ Get a compute node first, unless you are already on one. Do not run this on a
 login node, the basecalling step is real computation.
 
 ```bash
-salloc -p main,largemem,oneweek -N 1 -n 8 --mem 32G --time 2:00:00
-
-# salloc drops you straight onto the node here, but the shell it gives you is
-# pinned to a SINGLE CPU whatever you asked for. Take back the cores you were
-# allocated; child processes inherit this, so run it once and forget it.
-taskset -cp $(cat /sys/fs/cgroup/cpuset/cpuset.cpus) $$
-nproc    # should now print 8, not 1
+salloc -p main,largemem,oneweek -N 1 -c 8 --mem 32G --time 2:00:00
+nproc    # 8
 ```
 
-That `taskset` line is not optional and it is not a trick. Measured on this
-cluster: the interactive shell comes up with `nproc` 1 and an affinity mask of one
-core, while the cgroup itself allows all of them, so the restriction is Slurm's
-interactive step and nothing else. Eight parallel jobs took 1389 ms pinned and
-288 ms after, and a full ONT run took 392 s pinned against 133 s with the cores it
-was given. `srun -c 8` from inside the allocation does not help; it blocks,
-because the interactive step already holds the CPUs.
+Ask for the cores with `-c`, not with `-n`. In a batch script the two behave the
+same, which is why the difference is easy to miss, but an interactive shell is a
+Slurm *step* and there they part company. `-c 8` is one task holding eight cores.
+`-n 8` is eight tasks of one core each, so Slurm starts eight shells, attaches you
+to one of them, and that one has a single core. `squeue` says `cpus=8` either way.
+Measured here: `nproc` is 8 from a `-c 8` shell and 1 from a `-n 8` one, and a full
+ONT run took 133 s against 392 s.
 
 Then one block, start to finish:
 
@@ -281,22 +275,17 @@ Get a compute node first, unless you are already on one. Do not run this on a
 login node, the basecalling step is real computation.
 
 ```bash
-salloc -p main,largemem,oneweek -N 1 -n 8 --mem 32G --time 2:00:00
-
-# salloc drops you straight onto the node here, but the shell it gives you is
-# pinned to a SINGLE CPU whatever you asked for. Take back the cores you were
-# allocated; child processes inherit this, so run it once and forget it.
-taskset -cp $(cat /sys/fs/cgroup/cpuset/cpuset.cpus) $$
-nproc    # should now print 8, not 1
+salloc -p main,largemem,oneweek -N 1 -c 8 --mem 32G --time 2:00:00
+nproc    # 8
 ```
 
-That `taskset` line is not optional and it is not a trick. Measured on this
-cluster: the interactive shell comes up with `nproc` 1 and an affinity mask of one
-core, while the cgroup itself allows all of them, so the restriction is Slurm's
-interactive step and nothing else. Eight parallel jobs took 1389 ms pinned and
-288 ms after, and a full ONT run took 392 s pinned against 133 s with the cores it
-was given. `srun -c 8` from inside the allocation does not help; it blocks,
-because the interactive step already holds the CPUs.
+Ask for the cores with `-c`, not with `-n`. In a batch script the two behave the
+same, which is why the difference is easy to miss, but an interactive shell is a
+Slurm *step* and there they part company. `-c 8` is one task holding eight cores.
+`-n 8` is eight tasks of one core each, so Slurm starts eight shells, attaches you
+to one of them, and that one has a single core. `squeue` says `cpus=8` either way.
+Measured here: `nproc` is 8 from a `-c 8` shell and 1 from a `-n 8` one, and a full
+ONT run took 133 s against 392 s.
 
 Then one block, start to finish:
 
