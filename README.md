@@ -128,6 +128,30 @@ already there, verified by running against a read-only copy. If a run ever does
 need an image the cache does not hold, point the variable at a directory of your
 own and that run fills it.
 
+#### If a run fails on a Ref that does not exist
+
+`-latest` re-pulls the pipeline before running, which is what keeps a cached copy
+from going stale. If the cached copy is checked out on a branch that has since been
+deleted, that same flag is what fails:
+
+```
+Pulling LabShengLi/longverse ...
+Remote origin did not advertise Ref for branch refs/heads/<branch>.
+This Ref may not exist in the remote or may be hidden by permission settings.
+```
+
+Nextflow keeps pipelines under `$NXF_HOME/assets`, and a copy pulled from a branch
+stays on that branch. Nothing is wrong with your command; the local copy is
+pointing at something the remote no longer has. Drop it and pull again:
+
+```bash
+nextflow drop LabShengLi/longverse
+nextflow pull LabShengLi/longverse
+```
+
+This only affects people who ran the pipeline before. A first run has no cached
+copy and goes straight to the default branch.
+
 Full script: [Session1_setup.sh](script/Session1_setup.sh)
 
 ---

@@ -33,4 +33,14 @@ ls -lh "$NXF_SINGULARITY_CACHEDIR" | head
 # Elsewhere, point it at a directory of your own and let Nextflow fill it:
 #   export NXF_SINGULARITY_CACHEDIR=$HOME/longverse_cache
 
+# If a later run fails with
+#   Remote origin did not advertise Ref for branch refs/heads/<branch>
+# the cached pipeline under $NXF_HOME/assets is checked out on a branch the remote
+# no longer has, and -latest cannot update it. Drop it and pull again:
+#
+#   nextflow drop LabShengLi/longverse
+#   nextflow pull LabShengLi/longverse
+#
+# Only people who ran the pipeline before can hit this; a first run has no cache.
+
 echo "### Session1 Done"
