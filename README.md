@@ -170,8 +170,8 @@ rather than two copies of the same thing.
 Nothing has to be downloaded first. The commands below reference the Zenodo URLs
 and Nextflow stages them.
 
-The two command blocks each repeat the three setup lines from Section 1, so either
-one can be copied and pasted on its own. On this cluster that is all it takes: the
+Sections 2 and 3 are each complete on their own: allocation, working directory,
+setup and the run command. Copy either one whole and it works. On this cluster the
 tools are already installed and the image cache is already filled, so a run
 downloads nothing but the few MB of test data.
 
@@ -185,11 +185,26 @@ exits 0.
 
 ## Section 2: ONT, raw signal to per-haplotype methylation
 
+This section stands on its own: everything needed is below, Section 1 is the
+explanation of why.
+
+Get a compute node first, unless you are already on one. Do not run this on a
+login node, the basecalling step is real computation.
+
 ```bash
-# [CARC] Three lines of setup, repeated here so this block runs on its own.
-# Section 1 explains them; what they do is find the tools, reuse the shared image
-# cache instead of downloading 34 GB again, and put TMPDIR somewhere the
-# container can see.
+salloc -p debug -c 8 --mem 32GB --time 2:00:00
+srun --pty bash
+```
+
+Then one block, start to finish:
+
+```bash
+# A working directory. Everything the run writes goes here.
+mkdir -p /scratch1/$USER/longverse_tutorial && cd /scratch1/$USER/longverse_tutorial
+
+# [CARC] Three lines of setup. Section 1 explains them; what they do is find the
+# tools, reuse the shared image cache instead of downloading 34 GB again, and put
+# TMPDIR somewhere the container can see.
 export PATH=/apps/generic/apptainer/1.5.3/bin:/apps/generic/openjdk/25.0.2/bin:/apps/generic/nextflow/25.10.4/bin:$PATH
 export NXF_SINGULARITY_CACHEDIR=/scratch1/yliu8962/longverse_cache
 export TMPDIR=$PWD/tmp; mkdir -p "$TMPDIR"
@@ -211,6 +226,27 @@ extracted per read and unified per site, Clair3 calls variants, whatshap splits 
 reads into HP1 and HP2, and the methylation is re-extracted for each haplotype.
 **2 min 57 s** on four CPU cores, no GPU.
 
+
+**`DORADO_CALL` goes quiet, and that is not a hang.** Dorado prints nothing
+between loading the POD5 and finishing, so the last thing on screen stays
+
+```
+[debug] Load reads from file ont.untar/hg002_ont_chr20_GNAS.pod5
+```
+
+for the whole basecall. Measured here: 138 seconds of silence on an idle 64-core
+node, then `Finished in (ms): 133312` and 88 reads. On a busy shared node it is
+several times that, because Dorado sizes its CPU runner pool from the cores it can
+see on the machine and not from the cores Slurm gave you, so it oversubscribes and
+then competes with whatever else is running. To tell waiting from stuck, look at
+the process rather than the log:
+
+```bash
+ps -u $USER -o pid,%cpu,etime,comm | grep -i dorado
+```
+
+High `%CPU` means it is working. Near zero means something is wrong.
+
 Script: [Session2_ont_one_command.sh](script/Session2_ont_one_command.sh) ·
 Console output: [Session2_ont.log](script/Session2_ont.log)
 
@@ -218,11 +254,26 @@ Console output: [Session2_ont.log](script/Session2_ont.log)
 
 ## Section 3: PacBio HiFi, kinetics to per-haplotype methylation
 
+This section stands on its own: everything needed is below, Section 1 is the
+explanation of why.
+
+Get a compute node first, unless you are already on one. Do not run this on a
+login node, the basecalling step is real computation.
+
 ```bash
-# [CARC] Three lines of setup, repeated here so this block runs on its own.
-# Section 1 explains them; what they do is find the tools, reuse the shared image
-# cache instead of downloading 34 GB again, and put TMPDIR somewhere the
-# container can see.
+salloc -p debug -c 8 --mem 32GB --time 2:00:00
+srun --pty bash
+```
+
+Then one block, start to finish:
+
+```bash
+# A working directory. Everything the run writes goes here.
+mkdir -p /scratch1/$USER/longverse_tutorial && cd /scratch1/$USER/longverse_tutorial
+
+# [CARC] Three lines of setup. Section 1 explains them; what they do is find the
+# tools, reuse the shared image cache instead of downloading 34 GB again, and put
+# TMPDIR somewhere the container can see.
 export PATH=/apps/generic/apptainer/1.5.3/bin:/apps/generic/openjdk/25.0.2/bin:/apps/generic/nextflow/25.10.4/bin:$PATH
 export NXF_SINGULARITY_CACHEDIR=/scratch1/yliu8962/longverse_cache
 export TMPDIR=$PWD/tmp; mkdir -p "$TMPDIR"
