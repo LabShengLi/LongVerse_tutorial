@@ -18,7 +18,7 @@
       "showCoverage": false,
       "showMismatches": false,
       "showInsertions": false,
-      "height": 300
+      "height": 200
     },
     {
       "name": "ONT HP1",
@@ -31,7 +31,7 @@
       "showCoverage": false,
       "showMismatches": false,
       "showInsertions": false,
-      "height": 220
+      "height": 150
     },
     {
       "name": "ONT HP2",
@@ -44,7 +44,14 @@
       "showCoverage": false,
       "showMismatches": false,
       "showInsertions": false,
-      "height": 220
+      "height": 150
+    },
+    {
+      "name": " ",
+      "type": "annotation",
+      "format": "bed",
+      "features": [],
+      "height": 24
     },
     {
       "name": "PacBio all",
@@ -57,7 +64,7 @@
       "showCoverage": false,
       "showMismatches": false,
       "showInsertions": false,
-      "height": 300
+      "height": 200
     },
     {
       "name": "PacBio HP1",
@@ -70,7 +77,7 @@
       "showCoverage": false,
       "showMismatches": false,
       "showInsertions": false,
-      "height": 220
+      "height": 150
     },
     {
       "name": "PacBio HP2",
@@ -83,7 +90,7 @@
       "showCoverage": false,
       "showMismatches": false,
       "showInsertions": false,
-      "height": 220
+      "height": 150
     }
   ]
 }

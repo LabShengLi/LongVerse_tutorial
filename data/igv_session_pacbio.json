@@ -18,7 +18,7 @@
       "showCoverage": false,
       "showMismatches": false,
       "showInsertions": false,
-      "height": 1056
+      "height": 300
     },
     {
       "name": "PacBio HP1",
@@ -31,7 +31,7 @@
       "showCoverage": false,
       "showMismatches": false,
       "showInsertions": false,
-      "height": 440
+      "height": 230
     },
     {
       "name": "PacBio HP2",
@@ -44,7 +44,7 @@
       "showCoverage": false,
       "showMismatches": false,
       "showInsertions": false,
-      "height": 538
+      "height": 230
     }
   ]
 }

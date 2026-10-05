@@ -18,7 +18,7 @@
       "showCoverage": false,
       "showMismatches": false,
       "showInsertions": false,
-      "height": 804
+      "height": 300
     },
     {
       "name": "ONT HP1",
@@ -31,7 +31,7 @@
       "showCoverage": false,
       "showMismatches": false,
       "showInsertions": false,
-      "height": 384
+      "height": 230
     },
     {
       "name": "ONT HP2",
@@ -44,7 +44,7 @@
       "showCoverage": false,
       "showMismatches": false,
       "showInsertions": false,
-      "height": 384
+      "height": 230
     }
   ]
 }
