@@ -341,47 +341,15 @@ Run times, the step lists and how to tell a run actually worked are in
 
 ### IGV visualization of methylation states in BAM file
 
-Open OnDemand Traveller Desktop and start IGV Viewer.
-
-**Load the reference first.** `Genomes > Load Genome from File`, and pick the
-FASTA the run used, the one inside the `chr20_GNAS_ref` archive:
-
-```
-chm13v2.0.chr20_GNAS_readspan.fa
-```
-
-IGV needs the `.fai` beside it, which the archive already carries. Loading the BAM
-against a different assembly gives an empty view rather than an error.
-
-**Then load the BAM.** `File > Load from File`:
+Open OnDemand Traveller Desktop, start IGV Viewer, and load
 
 ```
 ont/ont-methylation-callings/Raw_Results-ont/ont.dorado_call/ont.dorado_call.bam
 ```
 
-That is every read, straight out of Dorado, carrying the MM/ML tags. The
-per-haplotype BAMs under `ont/ont-vcall/ont_phased_bam/` can be loaded the same
-way, as two more tracks.
-
-**Switch the colouring.** Right-click the alignment track, then
-
-```
-Color alignments by  >  base modification 2-color (5mC)
-```
-
-The submenu lists one entry per modification the loaded reads actually carry, and
-these reads carry two: the methylation model is `5mCG_5hmCG`, so every read has
-both a `C+m` and a `C+h` tag and IGV offers **5mC** and **5hmC** separately, plus
-an `(all)` entry that draws them together. Pick 5mC unless you want the
-hydroxymethyl signal.
-
-`base modification (5mC)` is the other form of the same choice: it shades one
-colour by likelihood, while the 2-color form puts methylated and unmethylated at
-opposite ends, which is what makes an imprinted locus readable at a glance.
-
-Defaults are red for 5mC and magenta for 5hmC, from `BASEMOD.M_COLOR` and
-`BASEMOD.H_COLOR`. Those and the likelihood threshold, which starts at 0 so every
-call is drawn however uncertain, are under `View > Preferences > Base Mods`.
+That is every read, straight out of Dorado, with the MM/ML tags on it. To see the
+methylation, right-click the alignment track and choose
+`Color alignments by > base modification 2-color (5mC)`.
 
 ![IGV Snapshot of KCNQ1](pic/igv_snapshot_KCNQ1.png)
 
