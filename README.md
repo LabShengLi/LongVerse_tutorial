@@ -407,8 +407,11 @@ Each link opens [igv.org/app](https://igv.org/app/) with the reference, the BAMs
 * [PacBio](https://igv.org/app/?sessionURL=https://labshengli.github.io/LongVerse_tutorial/data/igv_session_pacbio.json) - all reads, HP1, HP2
 * [Both platforms](https://igv.org/app/?sessionURL=https://labshengli.github.io/LongVerse_tutorial/data/igv_session_all.json) - all six tracks
 
-The tracks come up squished, three pixels per read rather than fourteen, so three
-tracks fit a screen and six still do.
+Each view opens on chr20:60,574,425-60,694,782 at 50,049-51,355, inside the GNAS
+ICR, with coverage, mismatches and insertions turned off so nothing competes with
+the modification colours. Track heights come from the number of reads actually
+over that window; the six-track view caps them and scrolls inside each track
+instead.
 
 The files are served from this repository, which answers byte-range requests and
 allows cross-origin reads, so IGV fetches only the part of each BAM it draws.
