@@ -339,13 +339,38 @@ ont/
 Run times, the step lists and how to tell a run actually worked are in
 [Session_jobinfo.md](script/Session_jobinfo.md).
 
+### Already-made results
+
+If you want to look at the output without running anything first, the BAMs from
+the run recorded here are in [`data/`](data/):
+
+```
+data/
+├── ont_chr20_GNAS.all.bam          89 reads, all of them, before phasing
+├── ont_chr20_GNAS.HP1.bam          34
+├── ont_chr20_GNAS.HP2.bam          31
+├── pacbio_chr20_GNAS.all.bam      103
+├── pacbio_chr20_GNAS.HP1.bam       38
+└── pacbio_chr20_GNAS.HP2.bam       46
+```
+
+Each has its `.bai`, all six are on the same contig, and the reference they need
+is `chm13v2.0.chr20_GNAS_readspan.fa` from the `chr20_GNAS_ref` archive on Zenodo.
+The inputs are not kept here, because they are already published and the commands
+above fetch them.
+
+HP1 and HP2 do not add up to `.all`: reads that cover no heterozygous site cannot
+be assigned to a haplotype.
+
 ### IGV visualization of methylation states in BAM file
 
-Open OnDemand Traveller Desktop, start IGV Viewer, and load
+Open OnDemand Traveller Desktop, start IGV Viewer, and load either your own run's
 
 ```
 ont/ont-methylation-callings/Raw_Results-ont/ont.dorado_call/ont.dorado_call.bam
 ```
+
+or the copy in [`data/ont_chr20_GNAS.all.bam`](data/).
 
 That is every read, straight out of Dorado, with the MM/ML tags on it. To see the
 methylation:
@@ -363,8 +388,9 @@ The submenu offers 5mC and 5hmC separately because the methylation model here is
 
 ### IGV visualization of haplotype phasing
 
-Load the two haplotype BAMs from `pacbio/pacbio-vcall/pacbio_phased_bam/` as
-separate tracks. At an imprinted locus the two tracks separate cleanly, which is
+Load the two haplotype BAMs from `pacbio/pacbio-vcall/pacbio_phased_bam/`, or
+[`data/pacbio_chr20_GNAS.HP1.bam`](data/) and its HP2 counterpart, as separate
+tracks. At an imprinted locus the two tracks separate cleanly, which is
 what a correct phasing looks like.
 
 ![IGV Snapshot of MethPhase](pic/igv_snapshot_methphase.png)
