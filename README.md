@@ -362,20 +362,6 @@ published and the commands above fetch them.
 HP1 and HP2 do not add up to `.all`: reads that cover no heterozygous site cannot
 be assigned to a haplotype.
 
-### Open it in IGV without installing anything
-
-One click each. These load [igv.org/app](https://igv.org/app/) with the reference,
-the BAM, 5mC colouring and the GNAS region already set:
-
-* [ONT, all reads](https://igv.org/app/?sessionURL=https://labshengli.github.io/LongVerse_tutorial/data/igv_session_ont.json)
-* [ONT, HP1 and HP2](https://igv.org/app/?sessionURL=https://labshengli.github.io/LongVerse_tutorial/data/igv_session_ont_hp.json)
-* [PacBio, all reads](https://igv.org/app/?sessionURL=https://labshengli.github.io/LongVerse_tutorial/data/igv_session_pacbio.json)
-* [PacBio, HP1 and HP2](https://igv.org/app/?sessionURL=https://labshengli.github.io/LongVerse_tutorial/data/igv_session_pacbio_hp.json)
-
-The files are served from this repository, which supports byte-range requests and
-allows cross-origin reads, so IGV fetches only the part of each BAM it draws
-rather than downloading the whole thing.
-
 ### IGV visualization of methylation states in BAM file
 
 Open OnDemand Traveller Desktop and start IGV Viewer. Load the reference with
@@ -411,6 +397,21 @@ tracks. At an imprinted locus the two tracks separate cleanly, which is
 what a correct phasing looks like.
 
 ![IGV Snapshot of MethPhase](pic/igv_snapshot_methphase.png)
+
+### Online IGV, nothing to install
+
+Each link opens [igv.org/app](https://igv.org/app/) with the reference, the BAMs,
+5mC two-colour and the GNAS region already set:
+
+* [ONT](https://igv.org/app/?sessionURL=https://labshengli.github.io/LongVerse_tutorial/data/igv_session_ont.json) - all reads, HP1, HP2
+* [PacBio](https://igv.org/app/?sessionURL=https://labshengli.github.io/LongVerse_tutorial/data/igv_session_pacbio.json) - all reads, HP1, HP2
+* [Both platforms](https://igv.org/app/?sessionURL=https://labshengli.github.io/LongVerse_tutorial/data/igv_session_all.json) - all six tracks
+
+The tracks come up squished, three pixels per read rather than fourteen, so three
+tracks fit a screen and six still do.
+
+The files are served from this repository, which answers byte-range requests and
+allows cross-origin reads, so IGV fetches only the part of each BAM it draws.
 
 ---
 

@@ -8,6 +8,39 @@
   "locus": "chr20:60574425-60694782\t44699\t55273",
   "tracks": [
     {
+      "name": "ONT all",
+      "type": "alignment",
+      "format": "bam",
+      "url": "https://labshengli.github.io/LongVerse_tutorial/data/ont_chr20_GNAS.all.bam",
+      "indexURL": "https://labshengli.github.io/LongVerse_tutorial/data/ont_chr20_GNAS.all.bam.bai",
+      "colorBy": "basemod2:m",
+      "displayMode": "SQUISHED",
+      "height": 95,
+      "showCoverage": true
+    },
+    {
+      "name": "ONT HP1",
+      "type": "alignment",
+      "format": "bam",
+      "url": "https://labshengli.github.io/LongVerse_tutorial/data/ont_chr20_GNAS.HP1.bam",
+      "indexURL": "https://labshengli.github.io/LongVerse_tutorial/data/ont_chr20_GNAS.HP1.bam.bai",
+      "colorBy": "basemod2:m",
+      "displayMode": "SQUISHED",
+      "height": 75,
+      "showCoverage": true
+    },
+    {
+      "name": "ONT HP2",
+      "type": "alignment",
+      "format": "bam",
+      "url": "https://labshengli.github.io/LongVerse_tutorial/data/ont_chr20_GNAS.HP2.bam",
+      "indexURL": "https://labshengli.github.io/LongVerse_tutorial/data/ont_chr20_GNAS.HP2.bam.bai",
+      "colorBy": "basemod2:m",
+      "displayMode": "SQUISHED",
+      "height": 75,
+      "showCoverage": true
+    },
+    {
       "name": "PacBio all",
       "type": "alignment",
       "format": "bam",
@@ -15,7 +48,7 @@
       "indexURL": "https://labshengli.github.io/LongVerse_tutorial/data/pacbio_chr20_GNAS.all.bam.bai",
       "colorBy": "basemod2:m",
       "displayMode": "SQUISHED",
-      "height": 150,
+      "height": 95,
       "showCoverage": true
     },
     {
@@ -26,7 +59,7 @@
       "indexURL": "https://labshengli.github.io/LongVerse_tutorial/data/pacbio_chr20_GNAS.HP1.bam.bai",
       "colorBy": "basemod2:m",
       "displayMode": "SQUISHED",
-      "height": 110,
+      "height": 75,
       "showCoverage": true
     },
     {
@@ -37,7 +70,7 @@
       "indexURL": "https://labshengli.github.io/LongVerse_tutorial/data/pacbio_chr20_GNAS.HP2.bam.bai",
       "colorBy": "basemod2:m",
       "displayMode": "SQUISHED",
-      "height": 110,
+      "height": 75,
       "showCoverage": true
     }
   ]
