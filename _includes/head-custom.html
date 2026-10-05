@@ -161,14 +161,14 @@ document.addEventListener('DOMContentLoaded', function () {
   #toc a.toc-active { color: #1e6bb8; font-weight: 600; }
 
   .toc-row { display: flex; align-items: flex-start; }
-  .toc-row > a { flex: 1; padding-left: .2rem; }
+  #toc .toc-row > a { flex: 1; padding-left: .2rem; }
   .toc-caret {
     width: 1.5rem; flex: none; border: 0; background: none; cursor: pointer;
     color: #586069; font-size: 11px; line-height: 1; padding: .55rem 0 0 .55rem;
     transition: transform .15s ease; transform-origin: 45% 45%;
   }
   .toc-caret[aria-expanded="false"] { transform: rotate(-90deg); }
-  .toc-row.toc-nokids > a { padding-left: 1.7rem; }
+  #toc .toc-caret[hidden] { display: block; visibility: hidden; pointer-events: none; }
   .toc-sub[hidden] { display: none; }
   #toc > ul { padding: .5rem 0 2rem; }
 
@@ -240,7 +240,7 @@ document.addEventListener('DOMContentLoaded', function () {
       var li = document.createElement('li');
       li.className = 'toc-group';
       var row = document.createElement('div');
-      row.className = 'toc-row toc-nokids';
+      row.className = 'toc-row';
       var caret = document.createElement('button');
       caret.className = 'toc-caret';
       caret.type = 'button';
@@ -270,7 +270,6 @@ document.addEventListener('DOMContentLoaded', function () {
       // gets no control to click.
       var rowEl = sub.previousElementSibling;
       rowEl.querySelector('.toc-caret').hidden = false;
-      rowEl.classList.remove('toc-nokids');
       var sli = document.createElement('li');
       sli.appendChild(a);
       sub.appendChild(sli);
