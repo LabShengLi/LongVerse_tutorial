@@ -398,14 +398,6 @@ what a correct phasing looks like.
 
 ![IGV Snapshot of MethPhase](pic/igv_snapshot_methphase.png)
 
-### ONT, right here
-
-All reads, HP1 and HP2 at the GNAS ICR, coloured by 5mC. It is the real IGV, so
-drag to pan, scroll to zoom, and right-click a track for the same menu as the
-desktop application. Nothing loads until you scroll to it.
-
-<div class="igv-embed" data-igv-session="data/igv_session_ont.json"></div>
-
 ### Online IGV, nothing to install
 
 Each link opens [igv.org/app](https://igv.org/app/) with the reference, the BAMs,
@@ -426,6 +418,12 @@ comparable, and a blank row separates them in the six-track view.
 
 The files are served from this repository, which answers byte-range requests and
 allows cross-origin reads, so IGV fetches only the part of each BAM it draws.
+
+And here is the ONT one running in this page, no click needed. It is the real
+IGV: drag to pan, scroll to zoom, right-click a track for the same menu as the
+desktop application.
+
+<div class="igv-embed" data-igv-session="data/igv_session_ont.json"></div>
 
 ---
 
