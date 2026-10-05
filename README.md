@@ -122,6 +122,12 @@ Elsewhere, point it at a directory of your own and let Nextflow fill it:
 export NXF_SINGULARITY_CACHEDIR=$HOME/longverse_cache
 ```
 
+The shared cache is readable but not writable by anyone else, which is enough:
+Nextflow writes nothing into the cache directory when every image it needs is
+already there, verified by running against a read-only copy. If a run ever does
+need an image the cache does not hold, point the variable at a directory of your
+own and that run fills it.
+
 Full script: [Session1_setup.sh](script/Session1_setup.sh)
 
 ---
@@ -140,6 +146,11 @@ rather than two copies of the same thing.
 Nothing has to be downloaded first. The commands below reference the Zenodo URLs
 and Nextflow stages them.
 
+The two command blocks each repeat the three setup lines from Section 1, so either
+one can be copied and pasted on its own. On this cluster that is all it takes: the
+tools are already installed and the image cache is already filled, so a run
+downloads nothing but the few MB of test data.
+
 **The contig is not called `chr20`.** The reference is a window and its single
 contig is named `chr20:60574425-60694782`. That string is the whole contig name,
 not a region on chr20, and positions inside it start at 1. Passing the bare
@@ -151,6 +162,14 @@ exits 0.
 ## Section 2: ONT, raw signal to per-haplotype methylation
 
 ```bash
+# [CARC] Three lines of setup, repeated here so this block runs on its own.
+# Section 1 explains them; what they do is find the tools, reuse the shared image
+# cache instead of downloading 34 GB again, and put TMPDIR somewhere the
+# container can see.
+export PATH=/apps/generic/apptainer/1.5.3/bin:/apps/generic/openjdk/25.0.2/bin:/apps/generic/nextflow/25.10.4/bin:$PATH
+export NXF_SINGULARITY_CACHEDIR=/scratch1/yliu8962/longverse_cache
+export TMPDIR=$PWD/tmp; mkdir -p "$TMPDIR"
+
 Z=https://zenodo.org/records/23090404/files
 
 nextflow run LabShengLi/longverse -latest -profile singularity --dsname ont \
@@ -176,6 +195,14 @@ Console output: [Session2_ont.log](script/Session2_ont.log)
 ## Section 3: PacBio HiFi, kinetics to per-haplotype methylation
 
 ```bash
+# [CARC] Three lines of setup, repeated here so this block runs on its own.
+# Section 1 explains them; what they do is find the tools, reuse the shared image
+# cache instead of downloading 34 GB again, and put TMPDIR somewhere the
+# container can see.
+export PATH=/apps/generic/apptainer/1.5.3/bin:/apps/generic/openjdk/25.0.2/bin:/apps/generic/nextflow/25.10.4/bin:$PATH
+export NXF_SINGULARITY_CACHEDIR=/scratch1/yliu8962/longverse_cache
+export TMPDIR=$PWD/tmp; mkdir -p "$TMPDIR"
+
 Z=https://zenodo.org/records/23090404/files
 
 nextflow run LabShengLi/longverse -latest -profile singularity --dsname pacbio \
