@@ -15,8 +15,8 @@
       "indexURL": "https://labshengli.github.io/LongVerse_tutorial/data/ont_chr20_GNAS.all.bam.bai",
       "colorBy": "basemod2:m",
       "displayMode": "SQUISHED",
-      "height": 95,
-      "showCoverage": true
+      "showCoverage": false,
+      "height": 70
     },
     {
       "name": "ONT HP1",
@@ -26,8 +26,8 @@
       "indexURL": "https://labshengli.github.io/LongVerse_tutorial/data/ont_chr20_GNAS.HP1.bam.bai",
       "colorBy": "basemod2:m",
       "displayMode": "SQUISHED",
-      "height": 75,
-      "showCoverage": true
+      "showCoverage": false,
+      "height": 50
     },
     {
       "name": "ONT HP2",
@@ -37,8 +37,8 @@
       "indexURL": "https://labshengli.github.io/LongVerse_tutorial/data/ont_chr20_GNAS.HP2.bam.bai",
       "colorBy": "basemod2:m",
       "displayMode": "SQUISHED",
-      "height": 75,
-      "showCoverage": true
+      "showCoverage": false,
+      "height": 50
     },
     {
       "name": "PacBio all",
@@ -48,8 +48,8 @@
       "indexURL": "https://labshengli.github.io/LongVerse_tutorial/data/pacbio_chr20_GNAS.all.bam.bai",
       "colorBy": "basemod2:m",
       "displayMode": "SQUISHED",
-      "height": 95,
-      "showCoverage": true
+      "showCoverage": false,
+      "height": 70
     },
     {
       "name": "PacBio HP1",
@@ -59,8 +59,8 @@
       "indexURL": "https://labshengli.github.io/LongVerse_tutorial/data/pacbio_chr20_GNAS.HP1.bam.bai",
       "colorBy": "basemod2:m",
       "displayMode": "SQUISHED",
-      "height": 75,
-      "showCoverage": true
+      "showCoverage": false,
+      "height": 50
     },
     {
       "name": "PacBio HP2",
@@ -70,8 +70,8 @@
       "indexURL": "https://labshengli.github.io/LongVerse_tutorial/data/pacbio_chr20_GNAS.HP2.bam.bai",
       "colorBy": "basemod2:m",
       "displayMode": "SQUISHED",
-      "height": 75,
-      "showCoverage": true
+      "showCoverage": false,
+      "height": 50
     }
   ]
 }
