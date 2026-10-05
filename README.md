@@ -29,7 +29,7 @@ and memory. More information in the
 for CARC HPC.
 
 ```bash
-salloc --account=<your_account> -p main,largemem,oneweek -N 1 -n 8 --mem 32G --time 2:00:00
+salloc -p main,largemem,oneweek -N 1 -n 8 --mem 32G --time 2:00:00
 
 # The shell salloc gives you is pinned to a single CPU. Take back the cores you
 # were allocated, once; everything you start afterwards inherits it.
@@ -199,7 +199,7 @@ Get a compute node first, unless you are already on one. Do not run this on a
 login node, the basecalling step is real computation.
 
 ```bash
-salloc --account=<your_account> -p main,largemem,oneweek -N 1 -n 8 --mem 32G --time 2:00:00
+salloc -p main,largemem,oneweek -N 1 -n 8 --mem 32G --time 2:00:00
 
 # salloc drops you straight onto the node here, but the shell it gives you is
 # pinned to a SINGLE CPU whatever you asked for. Take back the cores you were
@@ -281,7 +281,7 @@ Get a compute node first, unless you are already on one. Do not run this on a
 login node, the basecalling step is real computation.
 
 ```bash
-salloc --account=<your_account> -p main,largemem,oneweek -N 1 -n 8 --mem 32G --time 2:00:00
+salloc -p main,largemem,oneweek -N 1 -n 8 --mem 32G --time 2:00:00
 
 # salloc drops you straight onto the node here, but the shell it gives you is
 # pinned to a SINGLE CPU whatever you asked for. Take back the cores you were
