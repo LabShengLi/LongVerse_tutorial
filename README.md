@@ -545,8 +545,7 @@ Jasmine reads them. Measured here: nine pipeline tasks, 8 min 36 s, 103 reads,
 
 ### Your own data
 
-Name the path and the reference in the same sentence. A directory, a single `.pod5` or
-`.bam`, a tar or a tar.gz all work, and a BAM without an index gets one.
+Name the path and the reference in the same sentence.
 
 > Call CpG methylation for /data/sample/pod5 against hg38.
 
