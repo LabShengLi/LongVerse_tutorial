@@ -27,7 +27,7 @@ singularity --version 2>/dev/null || apptainer --version
 #
 # [CARC] A shared cache already holds every image these sessions need, so on
 # this cluster nothing is downloaded at all. It is world readable.
-export NXF_SINGULARITY_CACHEDIR=/scratch1/yliu8962/longverse_cache
+export NXF_SINGULARITY_CACHEDIR=/scratch2/yliu8962/longverse_cache
 ls -lh "$NXF_SINGULARITY_CACHEDIR" | head
 
 # Elsewhere, point it at a directory of your own and let Nextflow fill it:

@@ -17,14 +17,14 @@
 #
 # [CARC] The three exports are cluster-specific.
 # The cache is shared and world readable, so nobody on this cluster re-downloads
-# the 34 GB of images. It is on /scratch1, which is not backed up and is purged
+# the 34 GB of images. It is on /scratch2, which is not backed up and is purged
 # when the filesystem fills: fine for a cache, which Nextflow refills on demand.
 # Point it somewhere of your own elsewhere.
 # The bind matters because this site's Apptainer maps /project2 but NOT
-# /scratch1, so an inherited TMPDIR is invisible inside the container and the
+# /scratch2, so an inherited TMPDIR is invisible inside the container and the
 # untar step dies there.
 export PATH=/apps/generic/apptainer/1.5.3/bin:/apps/generic/openjdk/25.0.2/bin:/apps/generic/nextflow/25.10.4/bin:$PATH
-export NXF_SINGULARITY_CACHEDIR=/scratch1/yliu8962/longverse_cache
+export NXF_SINGULARITY_CACHEDIR=/scratch2/yliu8962/longverse_cache
 export TMPDIR=$PWD/tmp; mkdir -p "$TMPDIR"
 
 Z=https://zenodo.org/records/23090404/files

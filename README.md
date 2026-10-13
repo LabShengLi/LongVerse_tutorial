@@ -47,7 +47,7 @@ asking it for two is rejected before anything starts.
 Create and enter a directory for this session's work:
 
 ```bash
-wdir="/scratch1/$USER/longverse_tutorial"
+wdir="/scratch2/$USER/longverse_tutorial"
 mkdir -p $wdir
 cd $wdir
 pwd
@@ -119,7 +119,7 @@ quota-limited home directory.
 ```bash
 # [CARC] A shared cache already holds every image this tutorial needs, world
 # readable, so nothing is downloaded on this cluster.
-export NXF_SINGULARITY_CACHEDIR=/scratch1/yliu8962/longverse_cache
+export NXF_SINGULARITY_CACHEDIR=/scratch2/yliu8962/longverse_cache
 ```
 
 Elsewhere, point it at a directory of your own and let Nextflow fill it:
@@ -214,13 +214,13 @@ Then one block, start to finish:
 
 ```bash
 # A working directory. Everything the run writes goes here.
-mkdir -p /scratch1/$USER/longverse_tutorial && cd /scratch1/$USER/longverse_tutorial
+mkdir -p /scratch2/$USER/longverse_tutorial && cd /scratch2/$USER/longverse_tutorial
 
 # [CARC] Three lines of setup. Section 1 explains them; what they do is find the
 # tools, reuse the shared image cache instead of downloading 34 GB again, and put
 # TMPDIR somewhere the container can see.
 export PATH=/apps/generic/apptainer/1.5.3/bin:/apps/generic/openjdk/25.0.2/bin:/apps/generic/nextflow/25.10.4/bin:$PATH
-export NXF_SINGULARITY_CACHEDIR=/scratch1/yliu8962/longverse_cache
+export NXF_SINGULARITY_CACHEDIR=/scratch2/yliu8962/longverse_cache
 export TMPDIR=$PWD/tmp; mkdir -p "$TMPDIR"
 
 Z=https://zenodo.org/records/23090404/files
@@ -291,13 +291,13 @@ Then one block, start to finish:
 
 ```bash
 # A working directory. Everything the run writes goes here.
-mkdir -p /scratch1/$USER/longverse_tutorial && cd /scratch1/$USER/longverse_tutorial
+mkdir -p /scratch2/$USER/longverse_tutorial && cd /scratch2/$USER/longverse_tutorial
 
 # [CARC] Three lines of setup. Section 1 explains them; what they do is find the
 # tools, reuse the shared image cache instead of downloading 34 GB again, and put
 # TMPDIR somewhere the container can see.
 export PATH=/apps/generic/apptainer/1.5.3/bin:/apps/generic/openjdk/25.0.2/bin:/apps/generic/nextflow/25.10.4/bin:$PATH
-export NXF_SINGULARITY_CACHEDIR=/scratch1/yliu8962/longverse_cache
+export NXF_SINGULARITY_CACHEDIR=/scratch2/yliu8962/longverse_cache
 export TMPDIR=$PWD/tmp; mkdir -p "$TMPDIR"
 
 Z=https://zenodo.org/records/23090404/files
@@ -437,10 +437,154 @@ application. Each one starts loading when you reach it, not before.
 
 ---
 
+## Section 5: Agentic AI layer, one sentence instead of one command
+
+Sections 2 and 3 are the command line: eleven options, and every one of them has to
+be right before the run starts. The same pipeline answers a sentence, because
+LongVerse ships an MCP server. The agent chooses the tools, fills in the arguments
+and follows the run. It writes no code and changes nothing in the pipeline, so what
+it launches is the same pinned pipeline you ran by hand above, and the output is
+byte-identical.
+
+### Install the server, once
+
+Any Python 3.10 or newer works, and nothing else has to be installed first.
+
+```bash
+python3 -m venv ~/.longverse/venv
+~/.longverse/venv/bin/pip install \
+  "git+https://github.com/LabShengLi/longverse.git#subdirectory=agents/longverse-mcp"
+claude mcp add --scope user longverse -- ~/.longverse/venv/bin/longverse-mcp
+```
+
+Check the registration before relying on it. `claude mcp add` records the command
+without running it, so a mistake shows up only when the host first starts the
+server.
+
+```bash
+claude mcp list
+# longverse: <your home>/.longverse/venv/bin/longverse-mcp - ✔ Connected
+```
+
+### Get a compute node
+
+The pipeline must not run on a login node. Ask for one node and stay in the shell
+it gives you.
+
+```bash
+# [CARC]
+salloc --account=<your_account> --partition=<your_partition> \
+       --time=4:00:00 --cpus-per-task=8 --mem=32G
+srun --pty bash
+```
+
+### Set up the working directory
+
+Everything the agent writes goes under the directory you start it in: the composed
+commands and the runs under `longverse_outputs/`, the caches and the Nextflow home
+under `.longverse/`. Start it somewhere with room.
+
+```bash
+mkdir -p /scratch2/$USER/longverse_agent && cd /scratch2/$USER/longverse_agent
+module purge && module load apptainer/1.5.3
+
+# [CARC] Reuse the shared image cache instead of downloading 34 GB again.
+export LONGVERSE_SINGULARITY_CACHEDIR=/scratch2/yliu8962/longverse_cache
+```
+
+Java and Nextflow are installed into `.longverse/toolchain` the first time they are
+needed, no root required, so the only thing you have to provide is the container
+engine, which is the `module load apptainer` line above.
+
+### ONT, in two sentences
+
+```bash
+claude
+```
+
+Then type:
+
+> Basecall and call CpG methylation for the ONT demo data.
+
+The first time a LongVerse tool is used Claude asks whether to allow it. What comes
+back is a validated `nextflow run` command whose first line says it is using the
+published chromosome 20 GNAS demo, so a demo result is never mistaken for your own.
+Nothing has been submitted yet: composing a command and starting a run are separate
+tools. When the command looks right, say so:
+
+> run it locally
+
+The agent starts it in the background, waits for it through its own status tool,
+and reports the results directory and the main output files when it finishes.
+Measured here on eight CPU cores: eight pipeline tasks, 89 reads, `DORADO_CALL`
+8 min 46 s and everything after it about 11 s, 4,420 CpG sites in the GNAS window.
+
+Then the second sentence, in the same session:
+
+> Phase the ONT demo reads and give me methylation per haplotype.
+
+### PacBio, in two sentences
+
+```bash
+mkdir -p /scratch2/$USER/longverse_agent_pacbio && cd /scratch2/$USER/longverse_agent_pacbio
+export LONGVERSE_SINGULARITY_CACHEDIR=/scratch2/yliu8962/longverse_cache
+claude
+```
+
+> Call CpG methylation for the PacBio demo data.
+
+> Phase the PacBio demo reads and give me methylation per haplotype.
+
+The PacBio sentence does not say "basecall", because PacBio has no basecalling step
+of its own: 5mC comes from the polymerase kinetics the HiFi BAM already carries, and
+Jasmine reads them. Measured here: nine pipeline tasks, 8 min 36 s, 103 reads,
+2,672 CpG sites.
+
+### Check the result yourself
+
+The pipeline ignores task failures so that one dead step does not abandon the rest,
+which means Nextflow can exit 0 on a run whose tasks died. Count the trace instead
+of reading the exit code.
+
+```bash
+for d in longverse_outputs/longverse_launch_run_*; do
+  echo "$d: $(awk -F'\t' 'NR>1 && $5!="COMPLETED"' $d/trace.txt | wc -l) tasks not COMPLETED"
+done
+```
+
+Zero on every line is a clean run. The per-site methylation table, the BAM, the
+Clair3 VCF and the HTML reports are under `results/` in each launch directory, and
+the agent names them for you when it finishes.
+
+### What the agent will and will not do
+
+* **It uses the demo when you name no input.** Give it a path and it uses your data.
+  Name a genome in words, hg38 or mm10 or T2T, and it resolves it the way the
+  pipeline does.
+* **It composes for CPU** unless the request asks for a GPU, which adds `--nv` to
+  the Dorado step.
+* **It runs here, not on the scheduler,** unless you say Slurm or HPC in the
+  sentence, in which case it submits a batch job and follows that instead.
+* **It never writes a shell script and never runs `nextflow` by hand.** Composing,
+  launching, waiting and summarising are four tools, and the result of each one
+  names the tool that comes next.
+* **It stops at the results.** Reading the tables, computing statistics or drawing
+  figures are separate requests, and separate tools.
+
+Clean up when you are done. The `work/` directories hold every intermediate and are
+much larger than the results.
+
+```bash
+rm -rf longverse_outputs/*/work
+```
+
+---
+
 ## Adapting this elsewhere
 
 Lines marked `[CARC]` are specific to the USC CARC cluster: where Apptainer, Java
-and Nextflow live, and where the shared image cache is. Replace those and the rest
+and Nextflow live, where the shared image cache is, and which account and partition
+to ask for. Replace those and the rest
 works anywhere. With Docker, use `-profile docker` and drop `--containerOptions`,
 since Docker mounts what Nextflow uses.
 
