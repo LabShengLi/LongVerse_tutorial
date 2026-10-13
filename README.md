@@ -134,6 +134,9 @@ already there, verified by running against a read-only copy. If a run ever does
 need an image the cache does not hold, point the variable at a directory of your
 own and that run fills it.
 
+An identical copy sits at `/scratch1/yliu8962/longverse_cache`. Either works; use
+the other one if a filesystem is down.
+
 #### If a run fails on a Ref that does not exist
 
 `-latest` re-pulls the pipeline before running, which is what keeps a cached copy
