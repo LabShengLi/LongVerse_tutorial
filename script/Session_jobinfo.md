@@ -1,15 +1,18 @@
 # Run times
 
-Measured 2026-10-04 on a USC CARC compute node, 8 cores allocated and
+Measured 2026-10-15 on a USC CARC compute node, 8 cores allocated and
 `--processors 4` passed to the pipeline. No GPU. The full console output of these
 two runs is in `Session2_ont.log` and `Session3_pacbio.log`.
 
 | Session | Steps | Wall clock |
 |---|---|---|
-| 2, ONT, POD5 to per-haplotype methylation | 15 | **2 min 57 s** |
-| 3, PacBio HiFi, kinetics to per-haplotype methylation | 16 | **1 min 03 s** |
+| 2, ONT, POD5 to per-haplotype methylation | 15 | **3 min 00 s** |
+| 3, PacBio HiFi, kinetics to per-haplotype methylation | 16 | **40 s** |
 
-Both runs completed every step with nothing failed and nothing ignored.
+Both runs completed every step with nothing failed and nothing ignored. They were
+run by cutting the two blocks out of `README.md` and executing them unchanged, in
+a shell whose `HOME` was an empty directory, which is also what shows that the
+pipeline copy on `/scratch2` needs no credential of any kind.
 
 ONT takes three times as long for one reason: it basecalls. Dorado reads 23 MB of
 POD5 on CPU, which is most of those three minutes. PacBio has no basecalling step

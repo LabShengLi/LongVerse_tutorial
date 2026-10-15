@@ -33,14 +33,17 @@ ls -lh "$NXF_SINGULARITY_CACHEDIR" | head
 # Elsewhere, point it at a directory of your own and let Nextflow fill it:
 #   export NXF_SINGULARITY_CACHEDIR=$HOME/longverse_cache
 
-# If a later run fails with
-#   Remote origin did not advertise Ref for branch refs/heads/<branch>
-# the cached pipeline under $NXF_HOME/assets is checked out on a branch the remote
-# no longer has, and -latest cannot update it. Drop it and pull again:
+# The pipeline itself. Nextflow runs a pipeline from wherever you point it: a
+# directory, an archive, or a repository name. This tutorial points it at a
+# directory, a read-only copy that is already on the cluster, so there is nothing
+# to download. PIPELINE_VERSION.txt inside it names the commit it was taken from.
 #
-#   nextflow drop LabShengLi/longverse
-#   nextflow pull LabShengLi/longverse
-#
-# Only people who ran the pipeline before can hit this; a first run has no cache.
+# [CARC]
+export LONGVERSE=/scratch2/yliu8962/longverse_pipeline
+ls "$LONGVERSE/main.nf"
+cat "$LONGVERSE/PIPELINE_VERSION.txt"
+
+# An identical copy sits at /scratch1/yliu8962/longverse_pipeline.
+# Elsewhere, $LONGVERSE is your own copy of the pipeline.
 
 echo "### Session1 Done"

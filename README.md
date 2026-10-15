@@ -137,29 +137,29 @@ own and that run fills it.
 An identical copy sits at `/scratch1/yliu8962/longverse_cache`. Either works; use
 the other one if a filesystem is down.
 
-#### If a run fails on a Ref that does not exist
+#### The pipeline itself
 
-`-latest` re-pulls the pipeline before running, which is what keeps a cached copy
-from going stale. If the cached copy is checked out on a branch that has since been
-deleted, that same flag is what fails:
-
-```
-Pulling LabShengLi/longverse ...
-Remote origin did not advertise Ref for branch refs/heads/<branch>.
-This Ref may not exist in the remote or may be hidden by permission settings.
-```
-
-Nextflow keeps pipelines under `$NXF_HOME/assets`, and a copy pulled from a branch
-stays on that branch. Nothing is wrong with your command; the local copy is
-pointing at something the remote no longer has. Drop it and pull again:
+LongVerse is not installed either. Nextflow runs a pipeline from wherever you
+point it: a directory, an archive, or a repository name. This tutorial points it
+at a directory, a read-only copy that is already on the cluster, so there is
+nothing to download and no account to hold.
 
 ```bash
-nextflow drop LabShengLi/longverse
-nextflow pull LabShengLi/longverse
+# [CARC] World readable and write protected. One variable, used by every run
+# command below.
+export LONGVERSE=/scratch2/yliu8962/longverse_pipeline
+ls $LONGVERSE/main.nf
+cat $LONGVERSE/PIPELINE_VERSION.txt
 ```
 
-This only affects people who ran the pipeline before. A first run has no cached
-copy and goes straight to the default branch.
+`PIPELINE_VERSION.txt` names the commit the copy was taken from, which is how a
+result traces back to one version of the code. An identical copy sits at
+`/scratch1/yliu8962/longverse_pipeline`; use that one if a filesystem is down.
+
+Nothing is ever written into either copy. Nextflow puts the work directory and
+the results under the directory you launch from, and reads the pipeline, so a
+copy that nobody can write to is enough. Verified by running both sessions
+below against it with the write bit off.
 
 Full script: [Session1_setup.sh](script/Session1_setup.sh)
 
@@ -219,16 +219,17 @@ Then one block, start to finish:
 # A working directory. Everything the run writes goes here.
 mkdir -p /scratch2/$USER/longverse_tutorial && cd /scratch2/$USER/longverse_tutorial
 
-# [CARC] Three lines of setup. Section 1 explains them; what they do is find the
-# tools, reuse the shared image cache instead of downloading 34 GB again, and put
-# TMPDIR somewhere the container can see.
+# [CARC] Four lines of setup. Section 1 explains them; what they do is find the
+# tools, name the pipeline copy, reuse the shared image cache instead of
+# downloading 34 GB again, and put TMPDIR somewhere the container can see.
 export PATH=/apps/generic/apptainer/1.5.3/bin:/apps/generic/openjdk/25.0.2/bin:/apps/generic/nextflow/25.10.4/bin:$PATH
+export LONGVERSE=/scratch2/yliu8962/longverse_pipeline
 export NXF_SINGULARITY_CACHEDIR=/scratch2/yliu8962/longverse_cache
 export TMPDIR=$PWD/tmp; mkdir -p "$TMPDIR"
 
 Z=https://zenodo.org/records/23090404/files
 
-nextflow run LabShengLi/longverse -latest -profile singularity --dsname ont \
+nextflow run $LONGVERSE -profile singularity --dsname ont \
     --input $Z/chr20_GNAS_ont_pod5.tar.gz --genome $Z/chr20_GNAS_ref.tar.gz \
     --platform ont --ecosystem dorado --input_bam false --file_format pod5 --phasing true \
     --dorado_basecall_model 'dna_r10.4.1_e8.2_400bps_hac@v4.1.0' \
@@ -241,7 +242,7 @@ nextflow run LabShengLi/longverse -latest -profile singularity --dsname ont \
 Fifteen steps: Dorado basecalls the POD5 and calls 5mC, the methylation is
 extracted per read and unified per site, Clair3 calls variants, whatshap splits the
 reads into HP1 and HP2, and the methylation is re-extracted for each haplotype.
-**2 min 57 s** on four CPU cores, no GPU.
+**3 min 00 s** on four CPU cores, no GPU.
 
 
 **`DORADO_CALL` goes quiet, and that is not a hang.** Dorado prints nothing
@@ -296,16 +297,17 @@ Then one block, start to finish:
 # A working directory. Everything the run writes goes here.
 mkdir -p /scratch2/$USER/longverse_tutorial && cd /scratch2/$USER/longverse_tutorial
 
-# [CARC] Three lines of setup. Section 1 explains them; what they do is find the
-# tools, reuse the shared image cache instead of downloading 34 GB again, and put
-# TMPDIR somewhere the container can see.
+# [CARC] Four lines of setup. Section 1 explains them; what they do is find the
+# tools, name the pipeline copy, reuse the shared image cache instead of
+# downloading 34 GB again, and put TMPDIR somewhere the container can see.
 export PATH=/apps/generic/apptainer/1.5.3/bin:/apps/generic/openjdk/25.0.2/bin:/apps/generic/nextflow/25.10.4/bin:$PATH
+export LONGVERSE=/scratch2/yliu8962/longverse_pipeline
 export NXF_SINGULARITY_CACHEDIR=/scratch2/yliu8962/longverse_cache
 export TMPDIR=$PWD/tmp; mkdir -p "$TMPDIR"
 
 Z=https://zenodo.org/records/23090404/files
 
-nextflow run LabShengLi/longverse -latest -profile singularity --dsname pacbio \
+nextflow run $LONGVERSE -profile singularity --dsname pacbio \
     --input $Z/chr20_GNAS_pacbio_kinetics.tar.gz --genome $Z/chr20_GNAS_ref.tar.gz \
     --platform pacbio --ecosystem jasmine --input_bam false --file_format bam --phasing true \
     --chrSet chr20:60574425-60694782 --ctg_name chr20:60574425-60694782 \
@@ -316,7 +318,7 @@ nextflow run LabShengLi/longverse -latest -profile singularity --dsname pacbio \
 The same sixteen steps with one difference at the front: **PacBio has no
 basecalling step of its own**. A HiFi BAM already carries the polymerase kinetics
 and Jasmine calls 5mC from them. Everything after that, alignment with pbmm2,
-extraction, Clair3, phasing, is the shared stack. **1 min 03 s**.
+extraction, Clair3, phasing, is the shared stack. **40 s**.
 
 Script: [Session3_pacbio_one_command.sh](script/Session3_pacbio_one_command.sh) ·
 Console output: [Session3_pacbio.log](script/Session3_pacbio.log)
@@ -455,10 +457,17 @@ Any Python 3.10 or newer works, and nothing else has to be installed first.
 
 ```bash
 python3 -m venv ~/.longverse/venv
-~/.longverse/venv/bin/pip install \
-  "git+https://github.com/LabShengLi/longverse.git#subdirectory=agents/longverse-mcp"
-claude mcp add --scope user longverse -- ~/.longverse/venv/bin/longverse-mcp
+~/.longverse/venv/bin/pip install /scratch2/yliu8962/longverse_pipeline/agents/longverse-mcp
+claude mcp add --scope user longverse \
+  -e LONGVERSE_REPO=/scratch2/yliu8962/longverse_pipeline \
+  -- ~/.longverse/venv/bin/longverse-mcp
 ```
+
+The server is the same copy of LongVerse the command line sections use, and
+`LONGVERSE_REPO` is what tells it so. Without that variable the server goes
+looking for the pipeline on its own; with it, the command it composes runs the
+directory you just named, which is why its result is the same code you would
+have run by hand.
 
 Check the registration before relying on it. `claude mcp add` records the command
 without running it, so a mistake shows up only when the host first starts the
@@ -491,7 +500,9 @@ under `.longverse/`. Start it somewhere with room.
 mkdir -p /scratch2/$USER/longverse_agent && cd /scratch2/$USER/longverse_agent
 module purge && module load apptainer/1.5.3
 
-# [CARC] Reuse the shared image cache instead of downloading 34 GB again.
+# [CARC] Use the pipeline copy, and the shared image cache instead of
+# downloading 34 GB again.
+export LONGVERSE_REPO=/scratch2/yliu8962/longverse_pipeline
 export LONGVERSE_SINGULARITY_CACHEDIR=/scratch2/yliu8962/longverse_cache
 ```
 
@@ -530,6 +541,7 @@ Then the second sentence, in the same session:
 
 ```bash
 mkdir -p /scratch2/$USER/longverse_agent_pacbio && cd /scratch2/$USER/longverse_agent_pacbio
+export LONGVERSE_REPO=/scratch2/yliu8962/longverse_pipeline
 export LONGVERSE_SINGULARITY_CACHEDIR=/scratch2/yliu8962/longverse_cache
 claude
 ```
@@ -600,10 +612,18 @@ rm -rf longverse_outputs/*/work
 ## Adapting this elsewhere
 
 Lines marked `[CARC]` are specific to the USC CARC cluster: where Apptainer, Java
-and Nextflow live, where the shared image cache is, and which account and partition
-to ask for. Replace those and the rest
-works anywhere. With Docker, use `-profile docker` and drop `--containerOptions`,
-since Docker mounts what Nextflow uses.
+and Nextflow live, where the pipeline copy and the shared image cache are, and
+which account and partition to ask for. Replace those and the rest works
+anywhere. With Docker, use `-profile docker` and drop `--containerOptions`, since
+Docker mounts what Nextflow uses.
+
+`$LONGVERSE` is a path, so on another machine it is your own copy of the
+pipeline. Nextflow also takes a repository name in the same position, and then
+`-latest` re-pulls it before each run:
+
+```bash
+nextflow run LabShengLi/longverse -latest -profile singularity ...
+```
 
 ## Links
 
